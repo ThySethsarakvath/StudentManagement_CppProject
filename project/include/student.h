@@ -25,7 +25,7 @@ struct Student{
     string gender;
     int age;
     string major;
-    Grade *gratesHead;
+    Grade *gradesHead;
     Attendance *attendanceHead;
     Student *next;
 };
