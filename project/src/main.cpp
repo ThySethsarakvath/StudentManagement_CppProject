@@ -114,27 +114,27 @@ void loginMenu(StudentList *list, TeacherList *teacherList) {
                 break;
             }
             case 4:
-                cout << "Exiting the system. Goodbye!\n";
+                cout<<"Exiting the system. Goodbye!\n";
                 return;
             default:
-                cout << "Invalid option. Please try again.\n";
+                cout<<"Invalid option. Please try again.\n";
         }
     }
     }
-    catch(const exception& e) {
+    catch(const exception& e){
         cout << "An error occurred: " << e.what() << endl;
         return;
     }
     
 }
 
-int main() {
+int main(){
     StudentList *list = createStudentList();
     TeacherList *teacherList = createTeacherList();
     cout << "Welcome to the Student Management System!" << endl;
 
     // Add some sample students
-    addStudent(list, "p20230021", "ITC123", "AIDEN", "Male", 20, "Software Engineering");
+    addStudent(list, "S001", "pass123", "Alice", "Female", 20, "Computer Science");
 
     loginMenu(list, teacherList);
 

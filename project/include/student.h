@@ -6,19 +6,19 @@
 
 using namespace std;
 
-struct Grade {
+struct Grade{
     string subject;
     float score;
     Grade *next;
 };
 
-struct Attendance {
+struct Attendance{
     string date;
     bool present;
     Attendance *next;
 };
 
-struct Student {
+struct Student{
     string id;
     string password;
     string name;
