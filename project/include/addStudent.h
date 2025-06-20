@@ -6,30 +6,30 @@
 
 using namespace std;
 
-void addStudent(StudentList* list, const string& id, const string& password, const string& name, const string& gender, int age, const string& major){
+void addStudent(StudentList* list, const string& id, const string& password, const string& name, const string& gender, int age, const string& major) {
     Student *newStudent = new Student;
 
-    newStudent->id = id;
-    newStudent->password = password;
-    newStudent->name = name;
-    newStudent->gender = gender;
-    newStudent->age = age;
-    newStudent->major = major;
+    newStudent -> id = id;
+    newStudent -> password = password;
+    newStudent -> name = name;
+    newStudent -> gender = gender;
+    newStudent -> age = age;
+    newStudent -> major = major;
 
-    newStudent->gradesHead = nullptr;
-    newStudent->attendanceHead = nullptr;
-    newStudent->next = nullptr;
+    newStudent -> gradesHead = nullptr;
+    newStudent -> attendanceHead = nullptr;
+    newStudent -> next = nullptr;
 
-    if(list->n == 0){
-        list->head = newStudent;
-        list->tail = newStudent;
+    if(list -> n == 0){
+        list -> head = newStudent;
+        list -> tail = newStudent;
     }
     else{
-        list->tail->next = newStudent;
-        list->tail = newStudent;
+        list -> tail -> next = newStudent;
+        list -> tail = newStudent;
     }
 
-    list->n++;
+    list -> n++;
     cout << "Student added successfully!" << endl;
 }
 

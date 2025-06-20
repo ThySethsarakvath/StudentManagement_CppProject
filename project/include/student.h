@@ -6,19 +6,19 @@
 
 using namespace std;
 
-struct Grade{
+struct Grade {
     string subject;
     float score;
     Grade *next;
 };
 
-struct Attendance{
+struct Attendance {
     string date;
     bool present;
     Attendance *next;
 };
 
-struct Student{
+struct Student {
     string id;
     string password;
     string name;
@@ -38,9 +38,9 @@ struct StudentList {
 
 StudentList *createStudentList() {
     StudentList *list = new StudentList;
-    list->n = 0;
-    list->tail = nullptr;
-    list->head = nullptr;
+    list -> n = 0;
+    list -> tail = nullptr;
+    list -> head = nullptr;
     return list;
 }
 

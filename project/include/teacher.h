@@ -20,27 +20,27 @@ struct TeacherList {
 
 TeacherList* createTeacherList() {
     TeacherList* list = new TeacherList;
-    list->n = 0;
-    list->head = nullptr;
-    list->tail = nullptr;
+    list -> n = 0;
+    list -> head = nullptr;
+    list -> tail = nullptr;
     return list;
 }
 
 void addTeacher(TeacherList* list, string id, string pw, string name, string subject) {
     Teacher* t = new Teacher;
-    t->id = id;
-    t->password = pw;
-    t->name = name;
-    t->subject = subject;
-    t->next = nullptr;
+    t -> id = id;
+    t -> password = pw;
+    t -> name = name;
+    t -> subject = subject;
+    t -> next = nullptr;
 
-    if (list->n == 0) {
-        list->head = t;
+    if (list -> n == 0) {
+        list -> head = t;
     } else {
-        list->tail->next = t;
+        list -> tail -> next = t;
     }
-    list->tail = t;
-    list->n++;
+    list -> tail = t;
+    list -> n++;
 }
 
 #endif

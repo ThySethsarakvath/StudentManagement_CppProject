@@ -48,15 +48,13 @@ void loginMenu(StudentList *list, TeacherList *teacherList) {
         //     continue;
         // }
 
-        
-
-        switch(opt){
+        switch(opt) {
             case 1: {
-                cout<<"\n========== Teacher Login ==========\n";
-                cout<<"Please enter your ID: ";
-                cin>>id;
-                cout<<"Please enter your password: ";
-                cin>>password;
+                cout <<"\n========== Teacher Login ==========\n";
+                cout <<"Please enter your ID: ";
+                cin >> id;
+                cout <<"Please enter your password: ";
+                cin >> password;
 
                 Teacher* t = teacherList->head;
                 bool found = false;
@@ -82,20 +80,20 @@ void loginMenu(StudentList *list, TeacherList *teacherList) {
                 break;
             }
             case 2: {
-                cout<<"\n========== Student Login ==========\n";
-                cout<<"Please enter your ID: ";
-                cin>>id;
-                cout<<"Please enter your password: ";
-                cin>>password;
+                cout <<"\n========== Student Login ==========\n";
+                cout <<"Please enter your ID: ";
+                cin >> id;
+                cout <<"Please enter your password: ";
+                cin >> password;
 
-                cout<<"Login successful!\n";
+                cout <<"Login successful!\n";
 
                 studentMain(list, id);
 
                 break;
             }
             case 3: {
-                cout<<"\n========== Register New Teacher ==========\n";
+                cout <<"\n========== Register New Teacher ==========\n";
                 cout << "Enter Teacher ID: ";
                 cin >> id;
                 cout << "Enter Password: ";
@@ -114,27 +112,27 @@ void loginMenu(StudentList *list, TeacherList *teacherList) {
                 break;
             }
             case 4:
-                cout<<"Exiting the system. Goodbye!\n";
+                cout << "Exiting the system. Goodbye!\n";
                 return;
             default:
-                cout<<"Invalid option. Please try again.\n";
+                cout << "Invalid option. Please try again.\n";
         }
     }
     }
-    catch(const exception& e){
+    catch(const exception& e) {
         cout << "An error occurred: " << e.what() << endl;
         return;
     }
     
 }
 
-int main(){
+int main() {
     StudentList *list = createStudentList();
     TeacherList *teacherList = createTeacherList();
     cout << "Welcome to the Student Management System!" << endl;
 
     // Add some sample students
-    addStudent(list, "S001", "pass123", "Alice", "Female", 20, "Computer Science");
+    addStudent(list, "p20230021", "ITC123", "AIDEN", "Male", 20, "Software Engineering");
 
     loginMenu(list, teacherList);
 

@@ -4,9 +4,9 @@
 using namespace std;
 
 void studentMain(StudentList* list, string studentID) {
-    Student* current = list->head;
+    Student* current = list -> head;
     while (current != nullptr) {
-        if (current->id == studentID) {
+        if (current -> id == studentID) {
             break;
         }
         current = current->next;
@@ -17,22 +17,22 @@ void studentMain(StudentList* list, string studentID) {
         return;
     }
 
-    cout << "\n===== Welcome, " << current->name << " =====\n";
-    cout << "Major: " << current->major << "\n";
-    cout << "Age: " << current->age << "\n";
+    cout << "\n===== Welcome, " << current -> name << " =====\n";
+    cout << "Major: " << current -> major << "\n";
+    cout << "Age: " << current -> age << "\n";
 
     cout << "\nGrades:\n";
-    Grade* g = current->gradesHead;
+    Grade* g = current -> gradesHead;
     while (g) {
-        cout << g->subject << ": " << g->score << endl;
-        g = g->next;
+        cout << g -> subject << ": " << g -> score << endl;
+        g = g -> next;
     }
 
     cout << "\nAttendance:\n";
-    Attendance* a = current->attendanceHead;
+    Attendance* a = current -> attendanceHead;
     while (a) {
-        cout << a->date << ": " << (a->present ? "Present" : "Absent") << endl;
-        a = a->next;
+        cout << a -> date << ": " << (a -> present ? "Present" : "Absent") << endl;
+        a = a -> next;
     }
 
     cout << endl;
