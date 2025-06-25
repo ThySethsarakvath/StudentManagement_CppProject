@@ -33,6 +33,8 @@
 
 #include <iostream>
 #include "../include/student.h"
+#include "../include/addStudent.h"
+#include "../include/displayStudent.h"
 
 using namespace std;
 
@@ -40,7 +42,7 @@ void teacherMain(StudentList* list, string teacherID, string subject) {
     int choice;
     while (true) {
         cout << "\n╔══════════════════════════════════════════════╗\n";
-        cout << "║          Teacher Panel (" << subject << ")               ║\n";
+        cout << "║           Teacher Panel (" << subject << ")               ║\n";
         cout << "╠══════════════════════════════════════════════╣\n";
         cout << "║ 1. Add new Student                           ║\n";
         cout << "║ 2. Edit Student Details                      ║\n";
@@ -55,11 +57,27 @@ void teacherMain(StudentList* list, string teacherID, string subject) {
 
 
         switch (choice) {
-            case 1:
-                // Call addStudent()
-                cout << "Feature: Add Student\n";
-                break;
+            case 1:{
 
+                // Call addStudent()
+                string id, password,name, gender, major;
+                int age;
+                cout << "Feature: Add Student\n";
+                cout << "Enter Student ID: ";
+                cin >> id;
+                cout << "Enter Password: ";
+                cin >> password;
+                cout << "Enter Name: ";
+                cin >> name;
+                cout <<"Enter Gender: ";
+                cin >>gender;
+                cout << "Enter Age: ";
+                cin >> age;
+                cout << "Enter Major: ";
+                cin >> major;
+                addStudent(list, id, password, name, gender, age, major);
+                break;
+            }
             case 2:
                 // Call editStudents()
                 cout << "Feature: Edit Students\n";
@@ -68,6 +86,7 @@ void teacherMain(StudentList* list, string teacherID, string subject) {
             case 3:
                 // Call displayStudent()
                 cout << "Feature: Display Student\n";
+                displayStudents(list);
                 break;
 
             case 4:

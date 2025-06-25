@@ -129,11 +129,7 @@ void loginMenu(StudentList *list, TeacherList *teacherList) {
 int main() {
     StudentList *list = createStudentList();
     TeacherList *teacherList = createTeacherList();
-    cout << "Welcome to the Student Management System!" << endl;
-
-    // Add some sample students
-    addStudent(list, "p20230021", "ITC123", "AIDEN", "Male", 20, "Software Engineering");
-
+    
     loginMenu(list, teacherList);
 
     return 0;
