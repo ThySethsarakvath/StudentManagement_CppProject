@@ -130,6 +130,8 @@ int main() {
     StudentList *list = createStudentList();
     TeacherList *teacherList = createTeacherList();
     
+    addTeacher(teacherList, "T001", "pass111", "vath", "math");
+    addStudent(list, "S001", "pass123", "Alice", "M", 20, "Computer Science","math");
     loginMenu(list, teacherList);
 
     return 0;

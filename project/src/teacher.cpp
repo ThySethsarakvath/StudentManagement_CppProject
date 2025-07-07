@@ -35,12 +35,20 @@
 #include "../include/student.h"
 #include "../include/addStudent.h"
 #include "../include/displayStudent.h"
+#include "../include/deleteStudent.h"
+#include "../include/editStudent.h"
+#include "../include/displayStudentsBySubject.h"
+#include "../include/addGrade.h"
+#include "../include/markAttendance.h"
+#include "../include/studentViews.h"
 
 using namespace std;
 
-void teacherMain(StudentList* list, string teacherID, string subject) {
+void teacherMain(StudentList *list, string teacherID, string subject)
+{
     int choice;
-    while (true) {
+    while (true)
+    {
         cout << "\n╔══════════════════════════════════════════════╗\n";
         cout << "║           Teacher Panel (" << subject << ")               ║\n";
         cout << "╠══════════════════════════════════════════════╣\n";
@@ -50,66 +58,113 @@ void teacherMain(StudentList* list, string teacherID, string subject) {
         cout << "║ 4. Search Student                            ║\n";
         cout << "║ 5. Mark Attendance                           ║\n";
         cout << "║ 6. Add Grade                                 ║\n";
-        cout << "║ 7. Logout                                    ║\n";
+        cout << "║ 7. Delete Students                           ║\n";
+        cout << "║ 8. Logout                                    ║\n";
         cout << "╚══════════════════════════════════════════════╝\n";
         cout << "Choose: ";
         cin >> choice;
 
+        switch (choice)
+        {
+        case 1:
+        {
 
-        switch (choice) {
-            case 1:{
+            // Call addStudent()
+            string id, password, name, gender, major;
+            int age;
+            cout << "Feature: Add Student\n";
+            cout << "Enter Student ID: ";
+            cin >> id;
+            cout << "Enter Password: ";
+            cin >> password;
+            cout << "Enter Name: ";
+            cin >> name;
+            cout << "Enter Gender: ";
+            cin >> gender;
+            cout << "Enter Age: ";
+            cin >> age;
+            cout << "Enter Major: ";
+            cin >> major;
+            addStudent(list, id, password, name, gender, age, major, subject);
+            break;
+        }
+        case 2:
+        {
+            string idToEdit;
+            cout << "Enter Student ID to edit: ";
+            cin >> idToEdit;
+            editStudent(list, idToEdit, subject);
+            break;
+        }
 
-                // Call addStudent()
-                string id, password,name, gender, major;
-                int age;
-                cout << "Feature: Add Student\n";
-                cout << "Enter Student ID: ";
-                cin >> id;
-                cout << "Enter Password: ";
-                cin >> password;
-                cout << "Enter Name: ";
-                cin >> name;
-                cout <<"Enter Gender: ";
-                cin >>gender;
-                cout << "Enter Age: ";
-                cin >> age;
-                cout << "Enter Major: ";
-                cin >> major;
-                addStudent(list, id, password, name, gender, age, major);
-                break;
-            }
-            case 2:
-                // Call editStudents()
-                cout << "Feature: Edit Students\n";
-                break;
+        case 3:
+        {
+            int viewChoice;
+            do
+            {
+                cout << "\nSelect View:\n";
+                cout << "1. Student Overview\n";
+                cout << "2. Grade View\n";
+                cout << "3. Attendance View\n";
+                cout << "4. Back to Main Menu\n";
+                cout << "Choice: ";
+                cin >> viewChoice;
 
-            case 3:
-                // Call displayStudent()
-                cout << "Feature: Display Student\n";
-                displayStudents(list);
-                break;
+                switch (viewChoice)
+                {
+                case 1:
+                    displayStudentOverview(list, subject);
+                    break;
+                case 2:
+                    displayGradeView(list, subject);
+                    break;
+                case 3:
+                    displayAttendanceView(list, subject);
+                    break;
+                case 4:
+                    cout << "Returning to Main Menu...\n";
+                    break;
+                default:
+                    cout << "Invalid choice!\n";
+                }
+            } while (viewChoice != 4); // Keep looping until user chooses to go back
+            break;
+        }
 
-            case 4:
-                // Call searchStudetn()
-                cout << "Feature: Search Student\n";
-                break;
+        case 4:
+            // Call searchStudetn()
+            cout << "Feature: Search Student\n";
+            break;
 
-            case 5:
-                // Call markAttendance()
-                cout << "Feature: Mark Attendance\n";
-                break;
+        case 5:
+            // Call markAttendance()
+            cout << "Feature: Mark Attendance\n";
+            markAttendance(list, subject);
+            break;
 
-            case 6:
-                // Call addGrade()
-                cout << "Feature: Add Grade\n";
-                break;
+        case 6:
+            // Call addGrade()
+            cout << "Feature: Add Grade\n";
+            addGrade(list, subject);
+            break;
 
-            case 7:
-                cout << "Logging out...\n";
-                return;
+        case 7:
+        {
+            // Call deleteStudent()
+            cout << "Feature: Delete Student\n";
+            string idToDelete;
+            cout << "Enter Student ID to delete: ";
+            cin >> idToDelete;
+            deleteStudent(list, idToDelete);
+            break;
+        }
 
-            default:
-                cout << "Invalid choice.\n";
+        case 8:
+            cout << "Logging out...\n";
+            return;
+
+        default:
+            cout << "Invalid choice.\n";
         }
     }
 }
