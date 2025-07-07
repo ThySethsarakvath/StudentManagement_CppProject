@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void addStudent(StudentList* list, const string& id, const string& password, const string& name, const string& gender, int age, const string& major) {
+void addStudent(StudentList* list, const string& id, const string& password, const string& name, const string& gender, int age, const string& major, const string& subject) {
     Student *newStudent = new Student;
 
     newStudent -> id = id;
@@ -15,6 +15,7 @@ void addStudent(StudentList* list, const string& id, const string& password, con
     newStudent -> gender = gender;
     newStudent -> age = age;
     newStudent -> major = major;
+    newStudent -> subject = subject;
 
     newStudent -> gradesHead = nullptr;
     newStudent -> attendanceHead = nullptr;
