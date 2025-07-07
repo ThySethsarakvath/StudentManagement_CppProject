@@ -102,12 +102,16 @@ void teacherMain(StudentList *list, string teacherID, string subject)
             int viewChoice;
             do
             {
-                cout << "\nSelect View:\n";
-                cout << "1. Student Overview\n";
-                cout << "2. Grade View\n";
-                cout << "3. Attendance View\n";
-                cout << "4. Back to Main Menu\n";
-                cout << "Choice: ";
+                printf("╔════════════════════════════════════╗\n");
+                printf("║            Select View             ║\n");
+                printf("╠════════════════════════════════════╣\n");
+                printf("║ 1. Student Overview                ║\n");
+                printf("║ 2. Grade View                      ║\n");
+                printf("║ 3. Attendance View                 ║\n");
+                printf("║ 4. Back to Main Menu               ║\n");
+                printf("╚════════════════════════════════════╝\n");
+                printf("Choice: ");
+
                 cin >> viewChoice;
 
                 switch (viewChoice)
