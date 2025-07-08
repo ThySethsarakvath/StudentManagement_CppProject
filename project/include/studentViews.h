@@ -2,21 +2,13 @@
 #define STUDENT_VIEWS_H
 
 #include "student.h"
+#include "helpers.h"
 #include <iostream>
 #include <cstdio>
 #include <iomanip>
 #include <vector>
 
 using namespace std;
-
-// Helper function to center text
-string centerText(const string &text, int width)
-{
-    if (text.length() >= width)
-        return text;
-    int padding = (width - text.length()) / 2;
-    return string(padding, ' ') + text + string(padding, ' ');
-}
 
 // 1. Student Overview Display
 void displayStudentOverview(StudentList *list, const string &subject)
