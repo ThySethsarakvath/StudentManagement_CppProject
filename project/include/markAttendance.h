@@ -136,7 +136,7 @@ void markAttendance(StudentList* list, const string& teacherSubject) {
 
         if (markedAny) {
             printf("╠════════════════════════════════════╣\n");
-            printf("║ Attendance marked for all students║\n");
+            printf("║ Attendance marked for all students ║\n");
         } else {
             printf("╠════════════════════════════════════╣\n");
             printf("║ No students in your subject        ║\n");

@@ -1,4 +1,5 @@
 #include <iostream>
+#include "../include/fileIO.h"
 #include "../include/student.h"
 #include "../include/teacher.h"
 #include "../include/studentUI.h"
@@ -129,10 +130,14 @@ void loginMenu(StudentList *list, TeacherList *teacherList) {
 int main() {
     StudentList *list = createStudentList();
     TeacherList *teacherList = createTeacherList();
+
+    loadAllData(list);
     
-    addTeacher(teacherList, "T001", "pass111", "vath", "math");
-    addStudent(list, "S001", "pass123", "Alice", "M", 20, "Computer Science","math");
+    // addTeacher(teacherList, "T001", "pass111", "vath", "math");
+    // addStudent(list, "S001", "pass123", "Alice", "M", 20, "Computer Science","math");
     loginMenu(list, teacherList);
+
+    saveAllData(list);
 
     return 0;
 }

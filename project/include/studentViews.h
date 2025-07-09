@@ -140,4 +140,4 @@ void displayAttendanceView(StudentList *list, const string &subject)
     printf("╚═══════════╩══════════════════════╩═════════════╩══════════════╝\n");
 }
 
-#endif // STUDENT_VIEWS_H
+#endif
