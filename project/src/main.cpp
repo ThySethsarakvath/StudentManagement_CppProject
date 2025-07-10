@@ -6,6 +6,8 @@
 #include "../include/addStudent.h"
 #include "student.cpp"
 #include "teacher.cpp"
+#include "../include/teacherAcc.h"
+
 // #include <limits>
 
 using namespace std;
@@ -97,6 +99,11 @@ void loginMenu(StudentList *list, TeacherList *teacherList) {
                 cout <<"\n========== Register New Teacher ==========\n";
                 cout << "Enter Teacher ID: ";
                 cin >> id;
+                 if (isDuplicateTeacherId(teacherList, id)) {
+                        cout << " ID already exists. Please use a different ID.\n";
+                        break;
+                    }
+
                 cout << "Enter Password: ";
                 cin >> password;
                 cout << "Enter Name: ";
@@ -108,7 +115,9 @@ void loginMenu(StudentList *list, TeacherList *teacherList) {
                 getline(cin, subject);
 
                 addTeacher(teacherList, id, password, name, subject);
+                saveTeachersToCSV(teacherList, "../Data/teacherAcc.csv"); 
                 cout << "Teacher registered successfully!\n";
+                
                 cout <<"==========================================\n";
                 break;
             }
@@ -132,10 +141,11 @@ int main() {
     TeacherList *teacherList = createTeacherList();
 
     loadAllData(list);
-    
+     loadTeachersFromCSV(teacherList, "../Data/teacherAcc.csv");
     // addTeacher(teacherList, "T001", "pass111", "vath", "math");
     // addStudent(list, "S001", "pass123", "Alice", "M", 20, "Computer Science","math");
     loginMenu(list, teacherList);
+    saveTeachersToCSV(teacherList, "../Data/teacherAcc.csv");
 
     saveAllData(list);
 
