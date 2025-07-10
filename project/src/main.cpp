@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 #include "../include/fileIO.h"
 #include "../include/student.h"
 #include "../include/teacher.h"
@@ -137,6 +138,8 @@ void loginMenu(StudentList *list, TeacherList *teacherList) {
 }
 
 int main() {
+
+    SetConsoleOutputCP(CP_UTF8);
     StudentList *list = createStudentList();
     TeacherList *teacherList = createTeacherList();
 

@@ -25,7 +25,7 @@ void displayStudentOverview(StudentList *list, const string &subject)
     if (students.empty())
     {
         printf("\n╔════════════════════════════════════╗\n");
-        printf("║ %s ║\n", centerText("NO STUDENTS IN " + subject, 34).c_str());
+        printf("║ %s  ║\n", centerText("NO STUDENTS IN " + subject, 34).c_str());
         printf("╚════════════════════════════════════╝\n");
         return;
     }

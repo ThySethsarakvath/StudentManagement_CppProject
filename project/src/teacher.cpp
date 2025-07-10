@@ -18,7 +18,7 @@ void teacherMain(StudentList *list, string teacherID, string subject)
     while (true)
     {
         cout << "\n╔══════════════════════════════════════════════╗\n";
-        cout << "║           Teacher Panel (" << subject << ")               ║\n";
+        cout << "║           Teacher Panel (" << subject << ")                 ║\n";
         cout << "╠══════════════════════════════════════════════╣\n";
         cout << "║ 1. Add new Student                           ║\n";
         cout << "║ 2. Edit Student Details                      ║\n";
