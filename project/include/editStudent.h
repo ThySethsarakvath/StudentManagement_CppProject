@@ -1,7 +1,7 @@
 #ifndef EDIT_STUDENT_H
 #define EDIT_STUDENT_H
 
-#include "indent.h"
+#include "ui.h"
 #include "student.h"
 #include <iostream>
 #include <cstdio>
@@ -14,7 +14,7 @@ void editStudent(StudentList *list, const string &id, const string &teacherSubje
     if (list->n == 0)
     {
         printf("%s╔════════════════════════════════════╗\n", indent());
-        printf("%s║        No students to edit         ║\n", indent());
+        printf("%s║        No students to edit         ║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
         printf("%s╚════════════════════════════════════╝\n", indent());
 
         return;
@@ -25,24 +25,20 @@ void editStudent(StudentList *list, const string &id, const string &teacherSubje
     {
         if (current->id == id && current->subject == teacherSubject)
         {
+            cout << COLOR_MAGENTA;
             printf("%s╔══════════════════════════════════════════════╗\n", indent());
-            printf("%s║ EDITING STUDENT (%-10s) %-15s ║\n", indent(), teacherSubject.c_str(), id.c_str());
+            printf("%s║ %sEDITING STUDENT (%-10s) %-15s%s ║\n", indent(), COLOR_BLUE, id.c_str(), teacherSubject.c_str(), COLOR_MAGENTA);
             printf("%s╠══════════════════════════════════════════════╣\n", indent());
-            printf("%s║ 1. Name: %-35s ║\n", indent(), current->name.c_str());
-            printf("%s║ 2. Gender: %-33s ║\n", indent(), current->gender.c_str());
-            printf("%s║ 3. Age: %-36d ║\n", indent(), current->age);
-            printf("%s║ 4. Major: %-34s ║\n", indent(), current->major.c_str());
-            printf("%s║ 5. Password: %-31s ║\n", indent(), current->password.c_str());
+            printf("%s║ %s1. Name    : %-35s%s ║\n", indent(), COLOR_GREEN, current->name.c_str(), COLOR_MAGENTA);
+            printf("%s║ %s2. Gender  : %-33s%s ║\n", indent(), COLOR_GREEN, current->gender.c_str(), COLOR_MAGENTA);
+            printf("%s║ %s3. Age     : %-36d%s ║\n", indent(), COLOR_GREEN, current->age, COLOR_MAGENTA);
+            printf("%s║ %s4. Major   : %-34s%s ║\n", indent(), COLOR_GREEN, current->major.c_str(), COLOR_MAGENTA);
+            printf("%s║ %s5. Password: %-31s%s ║\n", indent(), COLOR_GREEN, current->password.c_str(), COLOR_MAGENTA);
             printf("%s╚══════════════════════════════════════════════╝\n", indent());
+            cout << COLOR_RESET;
 
-            int choice;
-            printf("%sSelect field to edit (1-5, 0 to cancel): ", indent());
-            cin >> choice;
+            int choice = getMenuChoice(1, 5);
 
-            if (choice == 0)
-                return;
-
-            cin.ignore(); // Clear input buffer
             string newValue;
             printf("%sEnter new value: ", indent());
             getline(cin, newValue);
@@ -76,19 +72,24 @@ void editStudent(StudentList *list, const string &id, const string &teacherSubje
                 return;
             }
 
+            cout << COLOR_MAGENTA;
             printf("%s╔════════════════════════════════════╗\n", indent());
-            printf("%s║     Student updated successfully!  ║\n", indent());
+            printf("%s║ %s    Student updated successfully!  %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
             printf("%s╚════════════════════════════════════╝\n", indent());
+            cout << COLOR_RESET;
 
             return;
         }
         current = current->next;
     }
 
-    printf("╔════════════════════════════════════╗\n",indent());
-    printf("║ Student not found or not in your   ║\n", indent());
-    printf("║ subject (%s)                     ║\n", teacherSubject.c_str(), indent());
-    printf("╚════════════════════════════════════╝\n", indent());
+    cout << COLOR_MAGENTA;
+printf("%s╔════════════════════════════════════╗\n", indent());
+printf("%s║ %sStudent not found or not in your   %s║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
+printf("%s║ %ssubject (%s)                     %s║\n", indent(), COLOR_BRIGHT_YELLOW, teacherSubject.c_str(), COLOR_MAGENTA);
+printf("%s╚════════════════════════════════════╝\n", indent());
+cout << COLOR_RESET;
+
 }
 
 #endif // EDIT_STUDENT_H

@@ -3,11 +3,9 @@
 #include "../include/fileIO.h"
 #include "../include/student.h"
 #include "../include/teacher.h"
-#include "../include/studentUI.h"
 #include "../include/addStudent.h"
 #include "../include/teacherAcc.h"
-#include "../include/isValid.h"
-#include "../include/indent.h"
+#include "../include/ui.h"
 #include "student.cpp"
 #include "teacher.cpp"
 
@@ -19,32 +17,36 @@ void loginMenu(StudentList *list, TeacherList *teacherList)
 {
     string id, password;
 
-    cout<<"\n\n";
-    cout<< indent1() << "    ███████████████████████████████████████████████████████████████████████████████▀██████████████████████████████████████████████████████████████████████████" << endl;
-    cout<< indent1() << "    █─▄▄▄▄█─▄─▄─█▄─██─▄█▄─▄▄▀█▄─▄▄─█▄─▀█▄─▄█─▄─▄─██▄─▀█▀─▄██▀▄─██▄─▀█▄─▄██▀▄─██─▄▄▄▄█▄─▄▄─█▄─▀█▀─▄█▄─▄▄─█▄─▀█▄─▄█─▄─▄─██─▄▄▄▄█▄─█─▄█─▄▄▄▄█─▄─▄─█▄─▄▄─█▄─▀█▀─▄█" << endl;
-    cout<< indent1() << "    █▄▄▄▄─███─████─██─███─██─██─▄█▀██─█▄▀─████─█████─█▄█─███─▀─███─█▄▀─███─▀─██─██▄─██─▄█▀██─█▄█─███─▄█▀██─█▄▀─████─████▄▄▄▄─██▄─▄██▄▄▄▄─███─████─▄█▀██─█▄█─██" << endl;
-    cout<< indent1() << "    ▀▄▄▄▄▄▀▀▄▄▄▀▀▀▄▄▄▄▀▀▄▄▄▄▀▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▀▄▄▄▀▀▀▄▄▄▀▄▄▄▀▄▄▀▄▄▀▄▄▄▀▀▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▄▀▄▄▄▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▀▄▄▄▀▀▀▄▄▄▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀▄▄▄▀▄▄▄▀" << endl;
+    cout << "\n\n";
+    cout << COLOR_CYAN;
+    cout << indent1() << "    ███████████████████████████████████████████████████████████████████████████████▀██████████████████████████████████████████████████████████████████████████" << endl;
+    cout << indent1() << "    █─▄▄▄▄█─▄─▄─█▄─██─▄█▄─▄▄▀█▄─▄▄─█▄─▀█▄─▄█─▄─▄─██▄─▀█▀─▄██▀▄─██▄─▀█▄─▄██▀▄─██─▄▄▄▄█▄─▄▄─█▄─▀█▀─▄█▄─▄▄─█▄─▀█▄─▄█─▄─▄─██─▄▄▄▄█▄─█─▄█─▄▄▄▄█─▄─▄─█▄─▄▄─█▄─▀█▀─▄█" << endl;
+    cout << indent1() << "    █▄▄▄▄─███─████─██─███─██─██─▄█▀██─█▄▀─████─█████─█▄█─███─▀─███─█▄▀─███─▀─██─██▄─██─▄█▀██─█▄█─███─▄█▀██─█▄▀─████─████▄▄▄▄─██▄─▄██▄▄▄▄─███─████─▄█▀██─█▄█─██" << endl;
+    cout << indent1() << "    ▀▄▄▄▄▄▀▀▄▄▄▀▀▀▄▄▄▄▀▀▄▄▄▄▀▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▀▄▄▄▀▀▀▄▄▄▀▄▄▄▀▄▄▀▄▄▀▄▄▄▀▀▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▄▄▄▀▄▄▄▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▀▄▄▄▀▀▀▄▄▄▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀▄▄▄▀▄▄▄▀" << endl;
+    cout << COLOR_RESET;
 
-
-    cout<<"\n\n";
+    cout << "\n\n";
     try
     {
         while (true)
         {
+            cout << COLOR_MAGENTA;
             cout << indent() << "╔════════════════════════════════════╗\n";
-            cout << indent() << "║            Login Menu              ║\n";
+            cout << indent() << "║            " << COLOR_BLUE << "Login Menu" << COLOR_MAGENTA << "              ║\n";
             cout << indent() << "╠════════════════════════════════════╣\n";
-            cout << indent() << "║ 1. Login as Teacher                ║\n";
-            cout << indent() << "║ 2. Login as Student                ║\n";
-            cout << indent() << "║ 3. Register New Teacher (Admin)    ║\n";
-            cout << indent() << "║ 4. Exit                            ║\n";
+            cout << indent() << "║ " << COLOR_GREEN << "1. Login as Teacher" << COLOR_MAGENTA << "                ║\n";
+            cout << indent() << "║ " << COLOR_GREEN << "2. Login as Student" << COLOR_MAGENTA << "                ║\n";
+            cout << indent() << "║ " << COLOR_GREEN << "3. Register New Teacher (Admin)" << COLOR_MAGENTA << "    ║\n";
+            cout << indent() << "║ " << COLOR_BRIGHT_RED << "4. Exit" << COLOR_MAGENTA << "                            ║\n";
             cout << indent() << "╚════════════════════════════════════╝\n";
+            cout << COLOR_RESET;
             int choice = getMenuChoice(1, 4);
 
             switch (choice)
             {
             case 1:
             {
+                cout << COLOR_MAGENTA;
                 cout << indent() << "========== Teacher Login ==========\n";
                 cout << indent() << "Please enter your ID: ";
                 cin >> id;
@@ -65,42 +67,48 @@ void loginMenu(StudentList *list, TeacherList *teacherList)
 
                 if (found)
                 {
+                    cout << COLOR_BRIGHT_GREEN;
                     cout << indent() << "========== Login Successful ==========\n";
                     cout << indent() << "Welcome back, " << t->name << "!\n";
                     cout << indent() << "Subject: " << t->subject << "\n";
                     cout << indent() << "You can now manage your students.\n";
                     cout << indent() << "=======================================\n";
+                    cout << COLOR_RESET;
                     teacherMain(list, id, t->subject);
                 }
                 else
                 {
+                    cout << COLOR_BRIGHT_RED;
                     cout << indent() << "Invalid ID or password.\n";
+                    cout << COLOR_RESET;
                 }
 
                 break;
             }
             case 2:
             {
+                cout << COLOR_MAGENTA;
                 cout << indent() << "========== Student Login ==========\n";
                 cout << indent() << "Please enter your ID: ";
                 cin >> id;
                 cout << indent() << "Please enter your password: ";
                 cin >> password;
-
-                cout << indent() << "Login successful!\n";
-
+                cout << COLOR_RESET;
                 studentMain(list, id);
 
                 break;
             }
             case 3:
             {
+                cout << COLOR_MAGENTA;
                 cout << indent() << "========== Register New Teacher ==========\n";
                 cout << indent() << "Enter Teacher ID: ";
                 cin >> id;
                 if (isDuplicateTeacherId(teacherList, id))
                 {
+                    cout << COLOR_BRIGHT_YELLOW;
                     cout << indent() << " ID already exists. Please use a different ID.\n";
+                    cout << COLOR_MAGENTA;
                     break;
                 }
 
@@ -119,13 +127,16 @@ void loginMenu(StudentList *list, TeacherList *teacherList)
                 cout << indent() << "Teacher registered successfully!\n";
 
                 cout << indent() << "==========================================\n";
+                cout << COLOR_RESET;
                 break;
             }
             case 4:
                 cout << indent() << "Exiting the system. Goodbye!\n";
                 return;
             default:
+                cout << COLOR_BRIGHT_RED;
                 cout << indent() << "Invalid option. Please try again.\n";
+                cout << COLOR_RESET;
             }
         }
     }

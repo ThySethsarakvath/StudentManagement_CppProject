@@ -1,15 +1,16 @@
 #ifndef DELETE_STUDENT_H
 #define DELETE_STUDENT_H
 
-#include "indent.h"
+#include "ui.h"
 #include "student.h"
 #include <iostream>
 
 using namespace std;
 void deleteStudent(StudentList* list, const string& id) {
     if (list->n == 0) {
+        cout<<COLOR_MAGENTA;
         printf("%s╔════════════════════════════════════╗\n",indent());
-        printf("%s║        No students available       ║\n", indent());
+        printf("%s║        No students available       ║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
         printf("%s╚════════════════════════════════════╝\n", indent());
         return;
     }
@@ -34,6 +35,7 @@ void deleteStudent(StudentList* list, const string& id) {
 
             delete current;
             list->n--;
+            cout<<COLOR_BRIGHT_GREEN;
             cout<<indent() << "Student with ID " << id << " deleted successfully." << endl;
             return;
         }
@@ -41,7 +43,9 @@ void deleteStudent(StudentList* list, const string& id) {
         current = current->next;
     }
 
+    cout<<COLOR_BRIGHT_RED;
     cout<<indent() << "Student with ID " << id << " not found." << endl;
+    cout<<COLOR_RESET;
 }
 
 #endif

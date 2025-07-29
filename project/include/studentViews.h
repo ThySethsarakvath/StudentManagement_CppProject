@@ -1,9 +1,8 @@
 #ifndef STUDENT_VIEWS_H
 #define STUDENT_VIEWS_H
 
-#include "indent.h"
+#include "ui.h"
 #include "student.h"
-#include "helpers.h"
 #include <iostream>
 #include <cstdio>
 #include <iomanip>
@@ -27,9 +26,10 @@ void displayStudentOverview(StudentList *list, const string &subject)
 
     if (students.empty())
     {
-        printf("\n╔════════════════════════════════════╗\n");
-        printf("║ %s  ║\n", centerText("NO STUDENTS IN " + subject, 34).c_str(),indent());
-        printf("╚════════════════════════════════════╝\n");
+        cout<<endl;
+        printf("%s╔════════════════════════════════════╗\n",indent());
+        printf("%s║ %s  ║\n",indent(), centerText("NO STUDENTS IN " + subject, 34).c_str());
+        printf("%s╚════════════════════════════════════╝\n",indent());
         return;
     }
 
