@@ -1,5 +1,6 @@
 #ifndef ADD_STUDENT_H
 #define ADD_STUDENT_H
+#include "indent.h"
 #include "student.h"
 #include <iostream>
 #include <string>
@@ -31,7 +32,7 @@ void addStudent(StudentList* list, const string& id, const string& password, con
     }
 
     list -> n++;
-    cout << "Student added successfully!" << endl;
+    cout<<indent() << "Student added successfully!" << endl;
 }
 
 #endif

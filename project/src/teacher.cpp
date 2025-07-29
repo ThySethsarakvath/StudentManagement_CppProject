@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include "../include/searchStudent.h"
 #include "../include/student.h"
 #include "../include/addStudent.h"
 #include "../include/displayStudent.h"
@@ -9,28 +10,30 @@
 #include "../include/addGrade.h"
 #include "../include/markAttendance.h"
 #include "../include/studentViews.h"
+#include "../include/isValid.h"
+#include "../include/indent.h"
 
 using namespace std;
 
+
+
 void teacherMain(StudentList *list, string teacherID, string subject)
 {
-    int choice;
     while (true)
     {
-        cout << "\n╔══════════════════════════════════════════════╗\n";
-        cout << "║           Teacher Panel (" << subject << ")                 ║\n";
-        cout << "╠══════════════════════════════════════════════╣\n";
-        cout << "║ 1. Add new Student                           ║\n";
-        cout << "║ 2. Edit Student Details                      ║\n";
-        cout << "║ 3. Display all Students                      ║\n";
-        cout << "║ 4. Search Student                            ║\n";
-        cout << "║ 5. Mark Attendance                           ║\n";
-        cout << "║ 6. Add Grade                                 ║\n";
-        cout << "║ 7. Delete Students                           ║\n";
-        cout << "║ 8. Logout                                    ║\n";
-        cout << "╚══════════════════════════════════════════════╝\n";
-        cout << "Choose: ";
-        cin >> choice;
+        cout << indent() << "╔══════════════════════════════════════════════╗\n";
+        cout << indent() << "║           Teacher Panel (" << subject << ")               ║\n";
+        cout << indent() << "╠══════════════════════════════════════════════╣\n";
+        cout << indent() << "║ 1. Add new Student                           ║\n";
+        cout << indent() << "║ 2. Edit Student Details                      ║\n";
+        cout << indent() << "║ 3. Display all Students                      ║\n";
+        cout << indent() << "║ 4. Search Student                            ║\n";
+        cout << indent() << "║ 5. Mark Attendance                           ║\n";
+        cout << indent() << "║ 6. Add Grade                                 ║\n";
+        cout << indent() << "║ 7. Delete Students                           ║\n";
+        cout << indent() << "║ 8. Logout                                    ║\n";
+        cout << indent() << "╚══════════════════════════════════════════════╝\n";
+        int choice = getMenuChoice(1, 8);
 
         switch (choice)
         {
@@ -40,18 +43,18 @@ void teacherMain(StudentList *list, string teacherID, string subject)
             // Call addStudent()
             string id, password, name, gender, major;
             int age;
-            cout << "Feature: Add Student\n";
-            cout << "Enter Student ID: ";
+            cout << indent() << "Feature: Add Student\n";
+            cout << indent() << "Enter Student ID: ";
             cin >> id;
-            cout << "Enter Password: ";
+            cout << indent() << "Enter Password: ";
             cin >> password;
-            cout << "Enter Name: ";
+            cout << indent() << "Enter Name: ";
             cin >> name;
-            cout << "Enter Gender: ";
+            cout << indent() << "Enter Gender: ";
             cin >> gender;
-            cout << "Enter Age: ";
+            cout << indent() << "Enter Age: ";
             cin >> age;
-            cout << "Enter Major: ";
+            cout << indent() << "Enter Major: ";
             cin >> major;
             addStudent(list, id, password, name, gender, age, major, subject);
             break;
@@ -59,84 +62,51 @@ void teacherMain(StudentList *list, string teacherID, string subject)
         case 2:
         {
             string idToEdit;
-            cout << "Enter Student ID to edit: ";
+            cout << indent() << "Enter Student ID to edit: ";
             cin >> idToEdit;
             editStudent(list, idToEdit, subject);
             break;
         }
 
         case 3:
-        {
-            int viewChoice;
-            do
-            {
-                printf("╔════════════════════════════════════╗\n");
-                printf("║            Select View             ║\n");
-                printf("╠════════════════════════════════════╣\n");
-                printf("║ 1. Student Overview                ║\n");
-                printf("║ 2. Grade View                      ║\n");
-                printf("║ 3. Attendance View                 ║\n");
-                printf("║ 4. Back to Main Menu               ║\n");
-                printf("╚════════════════════════════════════╝\n");
-                printf("Choice: ");
-
-                cin >> viewChoice;
-
-                switch (viewChoice)
-                {
-                case 1:
-                    displayStudentOverview(list, subject);
-                    break;
-                case 2:
-                    displayGradeView(list, subject);
-                    break;
-                case 3:
-                    displayAttendanceView(list, subject);
-                    break;
-                case 4:
-                    cout << "Returning to Main Menu...\n";
-                    break;
-                default:
-                    cout << "Invalid choice!\n";
-                }
-            } while (viewChoice != 4);
+            showViewMenu(list, subject); // Now it's clean and scoped!
             break;
-        }
 
         case 4:
             // Call searchStudetn()
-            cout << "Feature: Search Student\n";
+            cout << indent() << "Feature: Search Student\n";
+            searchStudentMenu(list, subject);
             break;
 
         case 5:
             // Call markAttendance()
-            cout << "Feature: Mark Attendance\n";
+            cout << indent() << "Feature: Mark Attendance\n";
             markAttendance(list, subject);
             break;
 
         case 6:
             // Call addGrade()
-            cout << "Feature: Add Grade\n";
+            cout << indent() << "Feature: Add Grade\n";
             addGrade(list, subject);
             break;
 
         case 7:
         {
             // Call deleteStudent()
-            cout << "Feature: Delete Student\n";
+            cout << indent() << "Feature: Delete Student\n";
             string idToDelete;
-            cout << "Enter Student ID to delete: ";
+            cout << indent() << "Enter Student ID to delete: ";
             cin >> idToDelete;
             deleteStudent(list, idToDelete);
             break;
         }
 
         case 8:
-            cout << "Logging out...\n";
+            cout << indent() << "Logging out...\n";
             return;
 
         default:
-            cout << "Invalid choice.\n";
+            cout << indent() << "Invalid choice.\n";
         }
     }
 }

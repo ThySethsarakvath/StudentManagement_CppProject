@@ -1,13 +1,16 @@
 #ifndef DELETE_STUDENT_H
 #define DELETE_STUDENT_H
 
+#include "indent.h"
 #include "student.h"
 #include <iostream>
 
 using namespace std;
 void deleteStudent(StudentList* list, const string& id) {
     if (list->n == 0) {
-        cout << "No students to delete." << endl;
+        printf("%s╔════════════════════════════════════╗\n",indent());
+        printf("%s║        No students available       ║\n", indent());
+        printf("%s╚════════════════════════════════════╝\n", indent());
         return;
     }
 
@@ -31,14 +34,14 @@ void deleteStudent(StudentList* list, const string& id) {
 
             delete current;
             list->n--;
-            cout << "Student with ID " << id << " deleted successfully." << endl;
+            cout<<indent() << "Student with ID " << id << " deleted successfully." << endl;
             return;
         }
         previous = current;
         current = current->next;
     }
 
-    cout << "Student with ID " << id << " not found." << endl;
+    cout<<indent() << "Student with ID " << id << " not found." << endl;
 }
 
 #endif

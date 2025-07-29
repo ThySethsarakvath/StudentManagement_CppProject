@@ -1,6 +1,7 @@
 #ifndef STUDENT_VIEWS_H
 #define STUDENT_VIEWS_H
 
+#include "indent.h"
 #include "student.h"
 #include "helpers.h"
 #include <iostream>
@@ -9,6 +10,8 @@
 #include <vector>
 
 using namespace std;
+
+
 
 // 1. Student Overview Display
 void displayStudentOverview(StudentList *list, const string &subject)
@@ -25,28 +28,30 @@ void displayStudentOverview(StudentList *list, const string &subject)
     if (students.empty())
     {
         printf("\n╔════════════════════════════════════╗\n");
-        printf("║ %s  ║\n", centerText("NO STUDENTS IN " + subject, 34).c_str());
+        printf("║ %s  ║\n", centerText("NO STUDENTS IN " + subject, 34).c_str(),indent());
         printf("╚════════════════════════════════════╝\n");
         return;
     }
 
-    printf("\n╔═════════════════════════════════════════════════════════════════╗\n");
-    printf("║ %s ║\n", centerText("STUDENT OVERVIEW (" + subject + ")", 63).c_str());
-    printf("╠═══════════╦══════════════════════╦════════╦═════╦═══════════════╣\n");
-    printf("║ %-9s ║ %-20s ║ %-5s ║ %-3s ║ %-13s ║\n", "ID", "NAME", "GENDER", "AGE", "MAJOR");
-    printf("╠═══════════╬══════════════════════╬════════╬═════╬═══════════════╣\n");
+    printf("%s╔═════════════════════════════════════════════════════════════════╗\n", indent());
+    printf("%s║ %s ║\n", indent(), centerText("STUDENT OVERVIEW (" + subject + ")", 63).c_str());
+    printf("%s╠═══════════╦══════════════════════╦════════╦═════╦═══════════════╣\n", indent());
+    printf("%s║ %-9s ║ %-20s ║ %-5s ║ %-3s ║ %-13s ║\n", indent(), "ID", "NAME", "GENDER", "AGE", "MAJOR");
+    printf("%s╠═══════════╬══════════════════════╬════════╬═════╬═══════════════╣\n", indent());
 
     for (const auto &s : students)
     {
-        printf("║ %-9s ║ %-20s ║ %-5s  ║ %-3d ║ %-13s ║\n",
+        printf("%s║ %-9s ║ %-20s ║ %-5s  ║ %-3d ║ %-13s ║\n",
+               indent(),
                s->id.c_str(),
                s->name.substr(0, 20).c_str(),
                s->gender.c_str(),
                s->age,
                s->major.substr(0, 13).c_str());
     }
-    printf("╚═══════════╩══════════════════════╩════════╩═════╩═══════════════╝\n");
-    printf("Total Students: %zu\n", students.size());
+
+    printf("%s╚═══════════╩══════════════════════╩════════╩═════╩═══════════════╝\n", indent());
+    printf("%sTotal Students: %zu\n", indent(), students.size());
 }
 
 // 2. Grade View Display
@@ -61,11 +66,11 @@ void displayGradeView(StudentList *list, const string &subject)
         current = current->next;
     }
 
-    printf("\n╔═══════════════════════════════════════════════════════════════╗\n");
-    printf("║ %s ║\n", centerText("GRADE REPORT (" + subject + ")", 62).c_str());
-    printf("╠═══════════╦══════════════════════╦═════════════╦══════════════╣\n");
-    printf("║ %-9s ║ %-20s ║ %-11s ║ %-12s ║\n", "ID", "NAME", "GRADE", "PERFORMANCE");
-    printf("╠═══════════╬══════════════════════╬═════════════╬══════════════╣\n");
+    printf("%s╔═══════════════════════════════════════════════════════════════╗\n", indent());
+    printf("%s║ %s ║\n", indent(), centerText("GRADE REPORT (" + subject + ")", 62).c_str());
+    printf("%s╠═══════════╦══════════════════════╦═════════════╦══════════════╣\n", indent());
+    printf("%s║ %-9s ║ %-20s ║ %-11s ║ %-12s ║\n", indent(), "ID", "NAME", "GRADE", "PERFORMANCE");
+    printf("%s╠═══════════╬══════════════════════╬═════════════╬══════════════╣\n", indent());
 
     for (const auto &s : students)
     {
@@ -90,13 +95,15 @@ void displayGradeView(StudentList *list, const string &subject)
         else
             performance = "No Data";
 
-        printf("║ %-9s ║ %-20s ║ %-11s ║ %-12s ║\n",
+        printf("%s║ %-9s ║ %-20s ║ %-11s ║ %-12s ║\n",
+               indent(),
                s->id.c_str(),
                s->name.substr(0, 20).c_str(),
                (latestScore >= 0) ? to_string(latestScore).c_str() : "N/A",
                performance.c_str());
     }
-    printf("╚═══════════╩══════════════════════╩═════════════╩══════════════╝\n");
+
+    printf("%s╚═══════════╩══════════════════════╩═════════════╩══════════════╝\n", indent());
 }
 
 // 3. Attendance View Display
@@ -111,11 +118,11 @@ void displayAttendanceView(StudentList *list, const string &subject)
         current = current->next;
     }
 
-    printf("\n╔═══════════════════════════════════════════════════════════════╗\n");
-    printf("║ %s║\n", centerText("ATTENDANCE REPORT (" + subject + ")", 62).c_str());
-    printf("╠═══════════╦══════════════════════╦═════════════╦══════════════╣\n");
-    printf("║ %-9s ║ %-20s ║ %-11s ║ %-12s ║\n", "ID", "NAME", "LAST ATTEND", "STATUS");
-    printf("╠═══════════╬══════════════════════╬═════════════╬══════════════╣\n");
+    printf("%s╔═══════════════════════════════════════════════════════════════╗\n", indent());
+    printf("%s║ %s║\n", indent(), centerText("ATTENDANCE REPORT (" + subject + ")", 62).c_str());
+    printf("%s╠═══════════╦══════════════════════╦═════════════╦══════════════╣\n", indent());
+    printf("%s║ %-9s ║ %-20s ║ %-11s ║ %-12s ║\n", indent(), "ID", "NAME", "LAST ATTEND", "STATUS");
+    printf("%s╠═══════════╬══════════════════════╬═════════════╬══════════════╣\n", indent());
 
     for (const auto &s : students)
     {
@@ -131,13 +138,50 @@ void displayAttendanceView(StudentList *list, const string &subject)
             att = att->next;
         }
 
-        printf("║ %-9s ║ %-20s ║ %-11s ║ %-12s ║\n",
+        printf("%s║ %-9s ║ %-20s ║ %-11s ║ %-12s ║\n",
+               indent(),
                s->id.c_str(),
                s->name.substr(0, 20).c_str(),
                lastDate.c_str(),
                lastStatus.c_str());
     }
-    printf("╚═══════════╩══════════════════════╩═════════════╩══════════════╝\n");
+
+    printf("%s╚═══════════╩══════════════════════╩═════════════╩══════════════╝\n", indent());
+}
+
+void showViewMenu(StudentList *list, const string &subject)
+{
+    while (true)
+    {
+        printf("%s╔════════════════════════════════════╗\n", indent());
+        printf("%s║            Select View             ║\n", indent());
+        printf("%s╠════════════════════════════════════╣\n", indent());
+        printf("%s║ 1. Student Overview                ║\n", indent());
+        printf("%s║ 2. Grade View                      ║\n", indent());
+        printf("%s║ 3. Attendance View                 ║\n", indent());
+        printf("%s║ 4. Back to Teacher Panel           ║\n", indent());
+        printf("%s╚════════════════════════════════════╝\n", indent());
+
+        int viewChoice = getMenuChoice(1, 4);
+
+        switch (viewChoice)
+        {
+        case 1:
+            displayStudentOverview(list, subject);
+            break;
+        case 2:
+            displayGradeView(list, subject);
+            break;
+        case 3:
+            displayAttendanceView(list, subject);
+            break;
+        case 4:
+            cout << indent() << "Returning to Teacher Panel...\n";
+            return; // Exits this function only
+        default:
+            cout << indent() << "Invalid choice!\n";
+        }
+    }
 }
 
 #endif

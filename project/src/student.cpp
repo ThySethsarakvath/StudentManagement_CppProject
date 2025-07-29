@@ -1,5 +1,7 @@
 #include "../include/student.h"
 #include "../include/helpers.h"
+#include "../include/isValid.h"
+#include "../include/indent.h"
 #include <iostream>
 #include <cstdio>
 #include <iomanip>
@@ -20,7 +22,7 @@ void studentMain(StudentList *list, const string &studentId)
 
     if (!current)
     {
-        cout << "Student not found.\n";
+        cout << indent() << "Student not found.\n";
         return;
     }
 
@@ -42,45 +44,43 @@ void studentMain(StudentList *list, const string &studentId)
         att = att->next;
     }
 
-    int choice;
     while (true)
     {
-        cout << "\n╔══════════════════════════════════════════════╗\n";
-        cout << "║" << centerText("STUDENT DASHBOARD: " + current->name, 46) << "║\n";
-        cout << "╠══════════════════════════════════════════════╣\n";
-        cout << "║ 1. View Profile                              ║\n";
-        cout << "║ 2. View Grades by Subject                    ║\n";
-        cout << "║ 3. View Attendance Records                   ║\n";
-        cout << "║ 4. View Overall Performance                  ║\n";
-        cout << "║ 5. Change Password                           ║\n";
-        cout << "║ 6. Logout                                    ║\n";
-        cout << "╚══════════════════════════════════════════════╝\n";
-        cout << "Choose option: ";
-        cin >> choice;
+        cout << indent() << "╔══════════════════════════════════════════════╗\n";
+        cout << indent() << "║" << centerText("STUDENT DASHBOARD: " + current->name, 46) << "║\n";
+        cout << indent() << "╠══════════════════════════════════════════════╣\n";
+        cout << indent() << "║ 1. View Profile                              ║\n";
+        cout << indent() << "║ 2. View Grades by Subject                    ║\n";
+        cout << indent() << "║ 3. View Attendance Records                   ║\n";
+        cout << indent() << "║ 4. View Overall Performance                  ║\n";
+        cout << indent() << "║ 5. Change Password                           ║\n";
+        cout << indent() << "║ 6. Logout                                    ║\n";
+        cout << indent() << "╚══════════════════════════════════════════════╝\n";
+        int choice = getMenuChoice(1, 6);
 
         switch (choice)
         {
         case 1:
         { // View Profile
-            printf("\n╔═════════════════════════════════════════════╗\n");
-            printf("║ %s ║\n", centerText("STUDENT PROFILE", 44).c_str());
-            printf("╠══════════════════════╦══════════════════════╣\n");
-            printf("║ %-20s ║ %-20s ║\n", "ID:", current->id.c_str());
-            printf("║ %-20s ║ %-20s ║\n", "Name:", current->name.c_str());
-            printf("║ %-20s ║ %-20s ║\n", "Gender:", current->gender.c_str());
-            printf("║ %-20s ║ %-20d ║\n", "Age:", current->age);
-            printf("║ %-20s ║ %-20s ║\n", "Major:", current->major.c_str());
-            printf("║ %-20s ║ %-20s ║\n", "Enrolled Subject:", current->subject.c_str());
-            printf("╚══════════════════════╩══════════════════════╝\n");
+            printf("%s╔═════════════════════════════════════════════╗\n", indent());
+            printf("%s║ %s ║\n", indent(), centerText("STUDENT PROFILE", 44).c_str());
+            printf("%s╠══════════════════════╦══════════════════════╣\n", indent());
+            printf("%s║ %-20s ║ %-20s ║\n", indent(), "ID:", current->id.c_str());
+            printf("%s║ %-20s ║ %-20s ║\n", indent(), "Name:", current->name.c_str());
+            printf("%s║ %-20s ║ %-20s ║\n", indent(), "Gender:", current->gender.c_str());
+            printf("%s║ %-20s ║ %-20d ║\n", indent(), "Age:", current->age);
+            printf("%s║ %-20s ║ %-20s ║\n", indent(), "Major:", current->major.c_str());
+            printf("%s║ %-20s ║ %-20s ║\n", indent(), "Enrolled Subject:", current->subject.c_str());
+            printf("%s╚══════════════════════╩══════════════════════╝\n", indent());
             break;
         }
         case 2:
         { // View Grades by Subject
-            printf("\n╔═════════════════════════════════════════════╗\n");
-            printf("║ %s║\n", centerText("GRADE REPORT", 44).c_str());
-            printf("╠══════════════════════╦══════════════════════╣\n");
-            printf("║ %-20s ║ %-20s║\n", "SUBJECT", "GRADES (Latest First)");
-            printf("╠══════════════════════╬══════════════════════╣\n");
+            printf("%s╔═════════════════════════════════════════════╗\n", indent());
+            printf("%s║ %s║\n", indent(), centerText("GRADE REPORT", 44).c_str());
+            printf("%s╠══════════════════════╦══════════════════════╣\n", indent());
+            printf("%s║ %-20s ║ %-20s║\n", indent(), "SUBJECT", "GRADES (Latest First)");
+            printf("%s╠══════════════════════╬══════════════════════╣\n", indent());
 
             for (const auto &subj : gradesBySubject)
             {
@@ -89,31 +89,35 @@ void studentMain(StudentList *list, const string &studentId)
                 {
                     gradesStr += to_string(subj.second[i]) + " ";
                 }
-                printf("║ %-20s ║ %-20s ║\n",
+                printf("%s║ %-20s ║ %-20s ║\n",
+                       indent(),
                        subj.first.c_str(),
                        gradesStr.empty() ? "N/A" : gradesStr.c_str());
             }
-            printf("╚══════════════════════╩══════════════════════╝\n");
+
+            printf("%s╚══════════════════════╩══════════════════════╝\n", indent());
             break;
         }
         case 3:
         { // View Attendance
-            printf("\n╔══════════════════════════════════════════════╗\n");
-            printf("║ %s ║\n", centerText("ATTENDANCE RECORDS", 44).c_str());
-            printf("╠══════════════════════╦══════════╦════════════╣\n");
-            printf("║ %-20s ║ %-8s ║ %-10s ║\n", "DATE", "STATUS", "SUBJECT");
-            printf("╠══════════════════════╬══════════╬════════════╣\n");
+            printf("%s╔══════════════════════════════════════════════╗\n", indent());
+            printf("%s║ %s ║\n", indent(), centerText("ATTENDANCE RECORDS", 44).c_str());
+            printf("%s╠══════════════════════╦══════════╦════════════╣\n", indent());
+            printf("%s║ %-20s ║ %-8s ║ %-10s ║\n", indent(), "DATE", "STATUS", "SUBJECT");
+            printf("%s╠══════════════════════╬══════════╬════════════╣\n", indent());
 
             Attendance *att = current->attendanceHead;
             while (att)
             {
-                printf("║ %-20s ║ %-8s ║ %-10s ║\n",
+                printf("%s║ %-20s ║ %-8s ║ %-10s ║\n",
+                       indent(),
                        att->date.c_str(),
                        att->present ? "Present" : "Absent",
                        current->subject.c_str());
                 att = att->next;
             }
-            printf("╚══════════════════════╩══════════╩════════════╝\n");
+
+            printf("%s╚══════════════════════╩══════════╩════════════╝\n", indent());
 
             // Calculate attendance rate
             int total = 0, present = 0;
@@ -127,16 +131,16 @@ void studentMain(StudentList *list, const string &studentId)
             }
             if (total > 0)
             {
-                printf("\nAttendance Rate: %.1f%% (%d/%d)\n",
+                printf("%sAttendance Rate: %.1f%% (%d/%d)\n", indent(),
                        (present * 100.0) / total, present, total);
             }
             break;
         }
         case 4:
         { // Overall Performance
-            printf("\n╔═════════════════════════════════════════════╗\n");
-            printf("║ %s ║\n", centerText("OVERALL PERFORMANCE", 44).c_str());
-            printf("╠══════════════════════╦══════════════════════╣\n");
+            printf("%s╔═════════════════════════════════════════════╗\n", indent());
+            printf("%s║ %s ║\n", indent(), centerText("OVERALL PERFORMANCE", 44).c_str());
+            printf("%s╠══════════════════════╦══════════════════════╣\n", indent());
 
             // GPA Calculation
             float totalPoints = 0;
@@ -163,33 +167,33 @@ void studentMain(StudentList *list, const string &studentId)
             }
             float attRate = totalAtt > 0 ? (presentAtt * 100.0) / totalAtt : 0;
 
-            printf("║ %-20s ║ %-20.2f ║\n", "GPA:", gpa);
-            printf("║ %-20s ║ %-20.1f%%║\n", "Attendance Rate:", attRate);
-            printf("║ %-20s ║ %-20d ║\n", "Subjects Taken:", (int)gradesBySubject.size());
-            printf("╚══════════════════════╩══════════════════════╝\n");
+            printf("%s║ %-20s ║ %-20.2f ║\n", indent(), "GPA:", gpa);
+            printf("%s║ %-20s ║ %-20.1f%%║\n", indent(), "Attendance Rate:", attRate);
+            printf("%s║ %-20s ║ %-20d ║\n", indent(), "Subjects Taken:", (int)gradesBySubject.size());
+            printf("%s╚══════════════════════╩══════════════════════╝\n", indent());
             break;
         }
         case 5:
         { // Change Password
             string oldPass, newPass;
-            cout << "Enter current password: ";
+            cout<< indent() << "Enter current password: ";
             cin >> oldPass;
             if (oldPass != current->password)
             {
-                cout << "Incorrect password!\n";
+                cout<< indent() << "Incorrect password!\n";
                 break;
             }
-            cout << "Enter new password: ";
+            cout<< indent() << "Enter new password: ";
             cin >> newPass;
             current->password = newPass;
-            cout << "Password changed successfully!\n";
+            cout<< indent() << "Password changed successfully!\n";
             break;
         }
         case 6: // Logout
-            cout << "Logging out...\n";
+            cout<< indent() << "Logging out...\n";
             return;
         default:
-            cout << "Invalid choice!\n";
+            cout<< indent() << "Invalid choice!\n";
         }
     }
 }
