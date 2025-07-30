@@ -4,74 +4,72 @@
 #include "addStudent.h"
 #include "student.h"
 #include <fstream>
-#include <sstream>
-#include <vector>
-#include <iostream>
-#include <sys/stat.h> // For directory creation
+#include <cstring> // for strtok
+#include <sys/stat.h>
 
 using namespace std;
 
-// Helper function to create data directory
 void createDataDirectory() {
-    mkdir("../Data"); // Creates directory if it doesn't exist
+    mkdir("../Data");
+}
+
+// Helper function to count tokens in a CSV line
+int countTokens(const char* line) {
+    int count = 0;
+    bool inToken = false;
+    while (*line) {
+        if (*line != ',' && !inToken) {
+            inToken = true;
+            count++;
+        } else if (*line == ',') {
+            inToken = false;
+        }
+        line++;
+    }
+    return count;
 }
 
 void saveAllData(StudentList* list) {
     createDataDirectory();
     
-    // Save students
     ofstream studentFile("../Data/students.csv");
-    if (!studentFile.is_open()) {
-        cerr << "Error opening students.csv for writing!" << endl;
-        return;
-    }
-    studentFile << "ID,Password,Name,Gender,Age,Major,Subject\n";
-    
-    // Save grades
     ofstream gradeFile("../Data/grades.csv");
-    if (!gradeFile.is_open()) {
-        cerr << "Error opening grades.csv for writing!" << endl;
-        return;
-    }
-    gradeFile << "StudentID,Subject,Score\n";
-    
-    // Save attendance
     ofstream attendanceFile("../Data/attendance.csv");
-    if (!attendanceFile.is_open()) {
-        cerr << "Error opening attendance.csv for writing!" << endl;
-        return;
-    }
+
+    // Write headers
+    studentFile << "ID,Password,Name,Gender,Age,Major,Subject\n";
+    gradeFile << "StudentID,Subject,Score\n";
     attendanceFile << "StudentID,Date,Present\n";
 
     Student* current = list->head;
     while (current) {
-        // Save student info
+        // Save student
         studentFile << current->id << ","
-                   << current->password << ","
-                   << current->name << ","
-                   << current->gender << ","
-                   << current->age << ","
-                   << current->major << ","
-                   << current->subject << "\n";
-        
+                    << current->password << ","
+                    << current->name << ","
+                    << current->gender << ","
+                    << current->age << ","
+                    << current->major << ","
+                    << current->subject << "\n";
+
         // Save grades
         Grade* grade = current->gradesHead;
         while (grade) {
             gradeFile << current->id << ","
-                     << grade->subject << ","
-                     << grade->score << "\n";
+                        << grade->subject << ","
+                        << grade->score << "\n";
             grade = grade->next;
         }
-        
+
         // Save attendance
         Attendance* att = current->attendanceHead;
         while (att) {
             attendanceFile << current->id << ","
-                         << att->date << ","
-                         << (att->present ? "1" : "0") << "\n";
+                            << att->date << ","
+                            << (att->present ? "1" : "0") << "\n";
             att = att->next;
         }
-        
+
         current = current->next;
     }
 }
@@ -79,60 +77,66 @@ void saveAllData(StudentList* list) {
 void loadAllData(StudentList* list) {
     // Load students
     ifstream studentFile("../Data/students.csv");
-    if (!studentFile.is_open()) {
-        cerr << "Note: students.csv not found (will create new file on save)" << endl;
-    } else {
-        string line;
-        getline(studentFile, line); // Skip header
+    if (studentFile) {
+        char line[256];
+        studentFile.getline(line, 256); // Skip header
         
-        while (getline(studentFile, line)) {
-            vector<string> tokens;
-            string token;
-            istringstream tokenStream(line);
+        while (studentFile.getline(line, 256)) {
+            if (countTokens(line) < 7) continue;
             
-            while (getline(tokenStream, token, ',')) {
-                tokens.push_back(token);
+            char* tokens[7];
+            int i = 0;
+            char* token = strtok(line, ",");
+            
+            while (token && i < 7) {
+                tokens[i++] = token;
+                token = strtok(NULL, ",");
             }
-            
-            if (tokens.size() >= 7) {
+
+            if (i == 7) {
                 addStudent(list, 
                           tokens[0], // ID
                           tokens[1], // Password
                           tokens[2], // Name
                           tokens[3], // Gender
-                          stoi(tokens[4]), // Age
+                          atoi(tokens[4]), // Age
                           tokens[5], // Major
                           tokens[6]  // Subject
                 );
             }
         }
     }
-    
+
     // Load grades
     ifstream gradeFile("../Data/grades.csv");
-    if (!gradeFile.is_open()) {
-        cerr << "Note: grades.csv not found" << endl;
-    } else {
-        string line;
-        getline(gradeFile, line); // Skip header
+    if (gradeFile) {
+        char line[256];
+        gradeFile.getline(line, 256); // Skip header
         
-        while (getline(gradeFile, line)) {
-            vector<string> tokens;
-            string token;
-            istringstream tokenStream(line);
+        while (gradeFile.getline(line, 256)) {
+            if (countTokens(line) < 3) continue;
             
-            while (getline(tokenStream, token, ',')) {
-                tokens.push_back(token);
+            char* tokens[3];
+            int i = 0;
+            char* token = strtok(line, ",");
+            
+            while (token && i < 3) {
+                tokens[i++] = token;
+                token = strtok(NULL, ",");
             }
-            
-            if (tokens.size() >= 3) {
+
+            if (i == 3) {
                 Student* s = list->head;
-                while (s && s->id != tokens[0]) s = s->next;
+                while (s && strcmp(s->id.c_str(), tokens[0]) != 0) {
+                    s = s->next;
+                }
                 
                 if (s) {
-                    Grade* newGrade = new Grade{tokens[1], stof(tokens[2]), nullptr};
+                    Grade* newGrade = new Grade();
+                    newGrade->subject = tokens[1];
+                    newGrade->score = atof(tokens[2]);
+                    newGrade->next = nullptr;
                     
-                    // Add to end of grade list
                     if (!s->gradesHead) {
                         s->gradesHead = newGrade;
                     } else {
@@ -144,36 +148,37 @@ void loadAllData(StudentList* list) {
             }
         }
     }
-    
+
     // Load attendance
     ifstream attendanceFile("../Data/attendance.csv");
-    if (!attendanceFile.is_open()) {
-        cerr << "Note: attendance.csv not found" << endl;
-    } else {
-        string line;
-        getline(attendanceFile, line); // Skip header
+    if (attendanceFile) {
+        char line[256];
+        attendanceFile.getline(line, 256); // Skip header
         
-        while (getline(attendanceFile, line)) {
-            vector<string> tokens;
-            string token;
-            istringstream tokenStream(line);
+        while (attendanceFile.getline(line, 256)) {
+            if (countTokens(line) < 3) continue;
             
-            while (getline(tokenStream, token, ',')) {
-                tokens.push_back(token);
+            char* tokens[3];
+            int i = 0;
+            char* token = strtok(line, ",");
+            
+            while (token && i < 3) {
+                tokens[i++] = token;
+                token = strtok(NULL, ",");
             }
-            
-            if (tokens.size() >= 3) {
+
+            if (i == 3) {
                 Student* s = list->head;
-                while (s && s->id != tokens[0]) s = s->next;
+                while (s && strcmp(s->id.c_str(), tokens[0]) != 0) {
+                    s = s->next;
+                }
                 
                 if (s) {
-                    Attendance* newAtt = new Attendance{
-                        tokens[1], 
-                        tokens[2] == "1", 
-                        nullptr
-                    };
+                    Attendance* newAtt = new Attendance();
+                    newAtt->date = tokens[1];
+                    newAtt->present = strcmp(tokens[2], "1") == 0;
+                    newAtt->next = nullptr;
                     
-                    // Add to end of attendance list
                     if (!s->attendanceHead) {
                         s->attendanceHead = newAtt;
                     } else {

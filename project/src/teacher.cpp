@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <regex>
 #include "../include/searchStudent.h"
 #include "../include/student.h"
 #include "../include/addStudent.h"
@@ -38,7 +39,7 @@ void teacherMain(StudentList *list, string teacherID, string subject)
         {
 
             // Call addStudent()
-            string id, password, name, gender, major;
+            string id, password, name, gender, major, ageStr;
             int age;
             clearTerminal();
             cout << COLOR_MAGENTA;
@@ -49,10 +50,40 @@ void teacherMain(StudentList *list, string teacherID, string subject)
             cin >> password;
             cout << indent() << "Enter Name: ";
             cin >> name;
-            cout << indent() << "Enter Gender: ";
+            cout << indent() << "Enter Gender (M/F): ";
             cin >> gender;
-            cout << indent() << "Enter Age: ";
-            cin >> age;
+            while (!isValidGender(gender))
+            {
+                cout << indent() << "Invalid gender. Please enter M or F: ";
+                cin >> gender;
+            }
+
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            // Age input with validation
+            while (true)
+            {
+                cout << indent() << "Enter Age: ";
+                getline(cin, ageStr);
+
+                // Validate full string is numeric
+                if (regex_match(ageStr, regex("^[0-9]+$")))
+                {
+                    age = stoi(ageStr);
+                    if (isValidAge(age))
+                    {
+                        break; // Age is valid and clean
+                    }
+                    else
+                    {
+                        cout << indent() << "Invalid age. Enter a number between 10 and 100.\n";
+                    }
+                }
+                else
+                {
+                    cout << indent() << "Invalid input. Please enter a numeric value only.\n";
+                }
+            }
             cout << indent() << "Enter Major: ";
             cin >> major;
             cout << COLOR_RESET;

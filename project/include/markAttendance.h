@@ -17,7 +17,7 @@ string getCurrentDate()
     time_t now = time(0);
     tm *ltm = localtime(&now);
     char buffer[11];
-    strftime(buffer, sizeof(buffer), "%Y-%m-%d", ltm);
+    strftime(buffer, sizeof(buffer), "%d-%m-%Y", ltm);
     return string(buffer);
 }
 
@@ -37,7 +37,6 @@ void markAttendance(StudentList *list, const string &teacherSubject)
 
     clearTerminal();
     string date;
-    int markingOption;
     cout << COLOR_MAGENTA;
     printf("%s╔════════════════════════════════════╗\n", indent());
     printf("%s║    %sAttendance for %-13s%s    ║\n", indent(), COLOR_BLUE, teacherSubject.c_str(), COLOR_MAGENTA);
@@ -45,92 +44,140 @@ void markAttendance(StudentList *list, const string &teacherSubject)
     printf("%s║ %s1. Use today's date (%s%s%s)%s   ║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_BRIGHT_YELLOW, getCurrentDate().c_str(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
     printf("%s║ %s2. Enter custom date               %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
     printf("%s╚════════════════════════════════════╝\n", indent());
-    printf("%s Choose option: ", indent());
 
-    cin >> markingOption;
+    int choice = getMenuChoice(1, 2);
 
-    if (markingOption == 1)
+    if (choice == 1)
     {
         date = getCurrentDate();
     }
     else
     {
-        printf("║ %sEnter date (YYYY-MM-DD): ", indent());
+        printf("  %sEnter date (DD-MM-YYYY): ", indent());
         cin >> date;
+
+        while(true){
+            if(isValidDate(date)){
+                break;
+            }
+            else{
+                cout << COLOR_BRIGHT_YELLOW << indent() << "Invalid date format! Please use DD-MM-YYYY." << COLOR_MAGENTA << endl;
+                printf("  %sEnter date (DD-MM-YYYY): ", indent());
+                cin >> date;
+            }
+        
+        }
     }
+    clearTerminal();
+    cout << COLOR_MAGENTA;
     printf("%s╔════════════════════════════════════╗\n", indent());
-    printf("%s║    %sAttendance for %-13s%s    ║\n", indent(), COLOR_BLUE, teacherSubject.c_str(), COLOR_MAGENTA);
+    printf("%s║      %sAttendance for %s%s%s     %s║\n", indent(), COLOR_BLUE, date.c_str(), COLOR_MAGENTA);
     printf("%s╠════════════════════════════════════╣\n", indent());
     printf("%s║ %s1. Mark individual student         %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
     printf("%s║ %s2. Mark all students               %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
     printf("%s╚════════════════════════════════════╝\n", indent());
-    printf("%s Choose marking mode: ", indent());
 
-    cin >> markingOption;
+    int choices = getMenuChoice(1, 2);
 
-    if (markingOption == 1)
+    if (choices == 1)
     {
-        // Individual student marking
         string studentId;
-        char status;
-        printf("%s Enter Student ID: ", indent());
-        cin >> studentId;
-        printf("%s Present (P) or Absent (A): ", indent());
-        cin >> status;
+        Student *current = nullptr;
+        bool foundStudent = false;
 
-        Student *current = list->head;
-        while (current != nullptr)
+        while (!foundStudent)
         {
-            if (current->id == studentId && current->subject == teacherSubject)
+            printf("%sEnter Student ID: ", indent());
+            cin >> studentId;
+
+            current = list->head;
+            while (current)
             {
-                Attendance *newAtt = new Attendance;
-                newAtt->date = date;
-                newAtt->present = (toupper(status) == 'P');
-                newAtt->next = nullptr;
-
-                if (current->attendanceHead == nullptr)
+                if (current->id == studentId && current->subject == teacherSubject)
                 {
-                    current->attendanceHead = newAtt;
+                    foundStudent = true;
+                    break; // Exit inner loop once found
                 }
-                else
-                {
-                    // Check if attendance already exists for this date
-                    Attendance *attCurrent = current->attendanceHead;
-                    while (attCurrent->next != nullptr)
-                    {
-                        if (attCurrent->date == date)
-                        {
-                            attCurrent->present = (toupper(status) == 'P');
-                            delete newAtt;
-                            clearTerminal();
-                            printf("%s╔════════════════════════════════════╗\n", indent());
-                            printf("%s║ %sAttendance updated successfully!  %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
-                            printf("%s╚════════════════════════════════════╝\n", indent());
-                            return;
-                        }
-                        attCurrent = attCurrent->next;
-                    }
-                    attCurrent->next = newAtt;
-                }
-
-                clearTerminal();
-                printf("%s╔════════════════════════════════════╗\n", indent());
-                printf("%s║ %sAttendance marked successfully!    %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
-                printf("%s╚════════════════════════════════════╝\n", indent());
-                return;
+                current = current->next;
             }
-            current = current->next;
+
+            if (!foundStudent)
+            {
+                printf("%s%sStudent ID not found or not enrolled in subject (%s)%s\n",
+                       indent(), COLOR_BRIGHT_YELLOW, teacherSubject.c_str(), COLOR_RESET);
+            }
         }
+
+        string status;
+        while (true)
+        {
+            printf("%sPresent (P) or Absent (A): ", indent());
+            cin >> status;
+
+            if (status == "P" || status == "p" || status == "A" || status == "a")
+                break;
+
+            printf("%sInvalid input! Please enter 'P' or 'A'.\n", indent());
+        }
+
+        Attendance *newAtt = new Attendance;
+        newAtt->date = date;
+        newAtt->present = (toupper(status[0]) == 'P');
+        newAtt->next = nullptr;
+
+        if (!current->attendanceHead)
+        {
+            current->attendanceHead = newAtt;
+        }
+        else
+        {
+            Attendance *attCurrent = current->attendanceHead;
+            while (attCurrent)
+            {
+                if (attCurrent->date == date)
+                {
+                    attCurrent->present = (toupper(status[0]) == 'P');
+                    delete newAtt;
+                    clearTerminal();
+                    cout << COLOR_MAGENTA;
+                    printf("%s╔════════════════════════════════════╗\n", indent());
+                    printf("%s║  %sAttendance updated successfully!  %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
+                    printf("%s╚════════════════════════════════════╝\n", indent());
+                    return;
+                }
+                if (!attCurrent->next)
+                    break;
+                attCurrent = attCurrent->next;
+            }
+            attCurrent->next = newAtt;
+        }
+
+        clearTerminal();
+        cout << COLOR_MAGENTA;
         printf("%s╔════════════════════════════════════╗\n", indent());
-        printf("%s║ %sStudent not found or not in your   %s║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
-        printf("%s║ %ssubject (%s)                     %s║\n", indent(), COLOR_BRIGHT_YELLOW, teacherSubject.c_str(), COLOR_MAGENTA);
+        printf("%s║ %sAttendance marked successfully!    %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
+        printf("%s╚════════════════════════════════════╝\n", indent());
+        // enter();
     }
     else
     {
         // Bulk marking for all students in subject
-        char status;
-        printf("%s Mark all as Present (P) or Absent (A): ", indent());
-        cin >> status;
+        string status;
+        while (true)
+        {
+            printf("%sMark all as Present (P) or Absent (A): ", indent());
+            cin >> status;
+
+            if (status == "P" || status == "A" || status == "p" || status == "a")
+            {
+                break; // Valid input
+            }
+            else
+            {
+
+                printf("%sInvalid input! Please enter 'P' or 'A'.\n", indent());
+            }
+        }
 
         Student *current = list->head;
         bool markedAny = false;
@@ -141,7 +188,7 @@ void markAttendance(StudentList *list, const string &teacherSubject)
                 markedAny = true;
                 Attendance *newAtt = new Attendance;
                 newAtt->date = date;
-                newAtt->present = (toupper(status) == 'P');
+                newAtt->present = (toupper(status[0]) == 'P');
                 newAtt->next = nullptr;
 
                 if (current->attendanceHead == nullptr)
@@ -155,7 +202,7 @@ void markAttendance(StudentList *list, const string &teacherSubject)
                     {
                         if (attCurrent->date == date)
                         {
-                            attCurrent->present = (toupper(status) == 'P');
+                            attCurrent->present = (toupper(status[0]) == 'P');
                             delete newAtt;
                             break;
                         }
@@ -173,17 +220,20 @@ void markAttendance(StudentList *list, const string &teacherSubject)
         if (markedAny)
         {
             clearTerminal();
+            cout << COLOR_MAGENTA;
             printf("%s╔════════════════════════════════════╗\n", indent());
             printf("%s║ %sAttendance marked for all students %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
+            printf("%s╚════════════════════════════════════╝\n", indent());
         }
         else
         {
             clearTerminal();
+            cout << COLOR_MAGENTA;
             printf("%s╔════════════════════════════════════╗\n", indent());
             printf("%s║ %sNo students in your subject        %s║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
+            printf("%s╚════════════════════════════════════╝\n", indent());
         }
     }
-    printf("%s╚════════════════════════════════════╝\n", indent());
 }
 
 #endif // MARK_ATTENDANCE_H

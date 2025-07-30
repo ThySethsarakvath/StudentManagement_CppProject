@@ -25,47 +25,27 @@ void searchByID(StudentList *list, const string &teacherSubject)
         if (current->subject == teacherSubject && current->id == searchID)
         {
             found = true;
-            cout << endl;
-
             clearTerminal();
             printf("%s╔════════════════════════════════════╗\n", indent());
             printf("%s║ %s           STUDENT FOUND           %s║\n", indent(), COLOR_BLUE, COLOR_MAGENTA);
             printf("%s╠════════════════════════════════════╣\n", indent());
             printf("%s║ %sID     :    %-22s%s ║\n", indent(), COLOR_BRIGHT_GREEN, current->id.c_str(), COLOR_MAGENTA);
             printf("%s║ %sName   :    %-22s%s ║\n", indent(), COLOR_BRIGHT_GREEN, current->name.c_str(), COLOR_MAGENTA);
-            printf("%s║ %sSubject:    %-25s%s ║\n", indent(), COLOR_BRIGHT_GREEN, current->subject.c_str(), COLOR_MAGENTA);
+            printf("%s║ %sSubject:    %-22s%s ║\n", indent(), COLOR_BRIGHT_GREEN, current->subject.c_str(), COLOR_MAGENTA);
             printf("%s╚════════════════════════════════════╝\n", indent());
-
-            break;
+            enter();
+            return;
         }
         current = current->next;
     }
+    clearTerminal();
+    printf("%s╔════════════════════════════════════╗\n", indent());
+    printf("%s║ No student found with ID: %s%-9s%s║\n",
+           indent(), COLOR_BRIGHT_YELLOW, searchID.substr(0, 9).c_str(), COLOR_MAGENTA);
+    printf("%s╚════════════════════════════════════╝\n", indent());
 
-    if (!found)
-    {
-        clearTerminal();
-        cout << endl;
-        printf("%s╔════════════════════════════════════╗\n", indent());
-        printf("%s║ No student found with ID: %s%-9s%s║\n",
-               indent(),
-               COLOR_BRIGHT_YELLOW,
-               searchID.substr(0, 9).c_str());
-        printf("%s╚════════════════════════════════════╝\n", indent());
-    }
+    enter();
     cout << COLOR_RESET;
-}
-
-// Case-insensitive string comparison
-bool matches(const string &a, const string &b)
-{
-    if (a.length() != b.length())
-        return false;
-    for (size_t i = 0; i < a.length(); i++)
-    {
-        if (tolower(a[i]) != tolower(b[i]))
-            return false;
-    }
-    return true;
 }
 
 // Search by name (partial match)
@@ -77,37 +57,34 @@ void searchByName(StudentList *list, const string &teacherSubject)
     getline(cin, searchName);
 
     Student *current = list->head;
-    vector<Student *> matched;
+    bool foundAny = false;
 
-    // Collect matches based on partial name and subject
+    clearTerminal();
+
+    // First check if any matches exist
     while (current)
     {
         if (current->subject == teacherSubject)
         {
             string currNameLower = current->name;
             string searchLower = searchName;
-
-            for (char &c : currNameLower)
-                c = tolower(c);
-            for (char &c : searchLower)
-                c = tolower(c);
+            transform(currNameLower.begin(), currNameLower.end(), currNameLower.begin(), ::tolower);
+            transform(searchLower.begin(), searchLower.end(), searchLower.begin(), ::tolower);
 
             if (currNameLower.find(searchLower) != string::npos)
             {
-                matched.push_back(current);
+                foundAny = true;
+                break;
             }
         }
         current = current->next;
     }
 
-    cout << endl;
-
-    if (!matched.empty())
+    if (foundAny)
     {
-        clearTerminal();
+        // Display header
         printf("%s╔══════════════════════════════════════════════╗\n", indent());
         printf("%s║ %s                SEARCH RESULTS               %s║\n", indent(), COLOR_BLUE, COLOR_MAGENTA);
-
         printf("%s╠═══════════╦══════════════════════╦═══════════╣\n", indent());
         printf("%s║ %s%-9s%s ║ %s%-20s%s ║ %s%-9s%s ║\n", indent(),
                COLOR_BRIGHT_GREEN, "ID", COLOR_MAGENTA,
@@ -115,36 +92,46 @@ void searchByName(StudentList *list, const string &teacherSubject)
                COLOR_BRIGHT_GREEN, "Subject", COLOR_MAGENTA);
         printf("%s╠═══════════╬══════════════════════╬═══════════╣\n", indent());
 
-        for (const auto &s : matched)
+        // Display matches
+        current = list->head;
+        while (current)
         {
-            printf("%s║ %s%-9s%s ║ %s%-20s%s ║ %s%-9s%s ║\n", indent(),
-                   COLOR_BRIGHT_GREEN, s->id.c_str(), COLOR_MAGENTA,
-                   COLOR_BRIGHT_GREEN, s->name.c_str(), COLOR_MAGENTA,
-                   COLOR_BRIGHT_GREEN, s->subject.c_str(), COLOR_MAGENTA);
-        }
+            if (current->subject == teacherSubject)
+            {
+                string currNameLower = current->name;
+                string searchLower = searchName;
+                transform(currNameLower.begin(), currNameLower.end(), currNameLower.begin(), ::tolower);
+                transform(searchLower.begin(), searchLower.end(), searchLower.begin(), ::tolower);
 
+                if (currNameLower.find(searchLower) != string::npos)
+                {
+                    printf("%s║ %s%-9s%s ║ %s%-20s%s ║ %s%-9s%s ║\n", indent(),
+                           COLOR_BRIGHT_GREEN, current->id.c_str(), COLOR_MAGENTA,
+                           COLOR_BRIGHT_GREEN, current->name.c_str(), COLOR_MAGENTA,
+                           COLOR_BRIGHT_GREEN, current->subject.c_str(), COLOR_MAGENTA);
+                }
+            }
+            current = current->next;
+        }
         printf("%s╚═══════════╩══════════════════════╩═══════════╝\n", indent());
-        cout << COLOR_RESET;
     }
     else
     {
-        clearTerminal();
         printf("%s╔════════════════════════════════════╗\n", indent());
-        printf("%s║ No student name: %s%-19s%s║\n",
-               indent(),
-               COLOR_BRIGHT_YELLOW,
-               searchName.substr(0, 9).c_str());
+        printf("%s║ No students name: %s%-14s%s   ║\n",
+               indent(), COLOR_BRIGHT_YELLOW, searchName.substr(0, 14).c_str(), COLOR_MAGENTA);
         printf("%s╚════════════════════════════════════╝\n", indent());
     }
+    enter();
     cout << COLOR_RESET;
 }
 
 // Teacher search menu
 void searchStudentMenu(StudentList *list, const string &teacherSubject)
 {
-    cout << COLOR_MAGENTA;
     while (true)
     {
+        clearTerminal();
         cout << COLOR_MAGENTA;
         cout << endl;
         printf("%s╔════════════════════════════════════╗\n", indent());
@@ -157,26 +144,21 @@ void searchStudentMenu(StudentList *list, const string &teacherSubject)
 
         int choice = getMenuChoice(1, 3);
 
-        if (choice == 1)
+        switch (choice)
         {
+        case 1:
             searchByID(list, teacherSubject);
-        }
-        else if (choice == 2)
-        {
-            searchByName(list, teacherSubject);
-        }
-        else if (choice == 3)
-        {
-            clearTerminal();
             break;
-        }
-        else
-        {
-            cout << COLOR_BRIGHT_RED;
-            printf("%sInvalid choice! Please enter 1-3\n", indent());
+        case 2:
+            searchByName(list, teacherSubject);
+            break;
+        case 3:
+            clearTerminal();
+            return; // Exit to main menu
+        default:
+            cout << COLOR_BRIGHT_RED << indent() << "Invalid choice!" << COLOR_RESET;
         }
     }
-    cout << COLOR_RESET;
 }
 
 #endif // SEARCH_STUDENT_H
