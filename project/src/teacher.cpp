@@ -21,10 +21,10 @@ void teacherMain(StudentList *list, string teacherID, string subject)
         cout << indent() << "║           " << COLOR_BLUE << "Teacher Panel (" << subject << ")" << COLOR_MAGENTA << "               ║\n";
         cout << indent() << "╠══════════════════════════════════════════════╣\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "1. Add new Student" << COLOR_MAGENTA << "                           ║\n";
-        cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "2. Edit Students Details" << COLOR_MAGENTA << "                      ║\n";
+        cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "2. Edit Students Details" << COLOR_MAGENTA << "                     ║\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "3. Display All Students" << COLOR_MAGENTA << "                      ║\n";
-        cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "4. Search Students" << COLOR_MAGENTA << "                            ║\n";
-        cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "5. Mark Attendences" << COLOR_MAGENTA << "                           ║\n";
+        cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "4. Search Students" << COLOR_MAGENTA << "                           ║\n";
+        cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "5. Mark Attendences" << COLOR_MAGENTA << "                          ║\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "6. Add Grade" << COLOR_MAGENTA << "                                 ║\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "7. Delete Students" << COLOR_MAGENTA << "                           ║\n";
         cout << indent() << "║ " << COLOR_BRIGHT_YELLOW << "8. Logout" << COLOR_MAGENTA << "                                    ║\n";
@@ -40,8 +40,9 @@ void teacherMain(StudentList *list, string teacherID, string subject)
             // Call addStudent()
             string id, password, name, gender, major;
             int age;
+            clearTerminal();
             cout << COLOR_MAGENTA;
-            cout << indent() << "Feature: Add Student\n";
+            cout << indent() << "========== Adding New Student ==========\n";
             cout << indent() << "Enter Student ID: ";
             cin >> id;
             cout << indent() << "Enter Password: ";
@@ -55,48 +56,54 @@ void teacherMain(StudentList *list, string teacherID, string subject)
             cout << indent() << "Enter Major: ";
             cin >> major;
             cout << COLOR_RESET;
+            clearTerminal();
             addStudent(list, id, password, name, gender, age, major, subject);
             break;
         }
         case 2:
         {
+            clearTerminal();
             string idToEdit;
             cout << COLOR_MAGENTA;
+            cout << indent() << "========== Edit Student Details ==========\n";
             cout << indent() << "Enter Student ID to edit: ";
             cin >> idToEdit;
             cout << COLOR_RESET;
+            clearTerminal();
             editStudent(list, idToEdit, subject);
             break;
         }
 
         case 3:
+            clearTerminal();
             showViewMenu(list, subject); // Now it's clean and scoped!
             break;
 
         case 4:
             // Call searchStudetn()
-            cout << indent() << "Feature: Search Student\n";
+            clearTerminal();
             searchStudentMenu(list, subject);
             break;
 
         case 5:
             // Call markAttendance()
-            cout << indent() << "Feature: Mark Attendance\n";
+            clearTerminal();
             markAttendance(list, subject);
             break;
 
         case 6:
             // Call addGrade()
-            cout << indent() << "Feature: Add Grade\n";
+            clearTerminal();
             addGrade(list, subject);
             break;
 
         case 7:
         {
             // Call deleteStudent()
-            cout << indent() << "Feature: Delete Student\n";
+            clearTerminal();
             string idToDelete;
             cout << COLOR_MAGENTA;
+            cout << indent() << "========== Delete Student ==========\n";
             cout << indent() << "Enter Student ID to delete: ";
             cin >> idToDelete;
             cout << COLOR_RESET;
@@ -105,6 +112,7 @@ void teacherMain(StudentList *list, string teacherID, string subject)
         }
 
         case 8:
+            clearTerminal();
             cout << COLOR_BRIGHT_YELLOW;
             cout << indent() << "Logging out...\n";
             cout << COLOR_RESET;

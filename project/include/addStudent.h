@@ -32,9 +32,11 @@ void addStudent(StudentList* list, const string& id, const string& password, con
     }
 
     list -> n++;
+    clearTerminal();
     cout<< COLOR_BRIGHT_GREEN;
     cout<<indent() << "Student added successfully!" << endl;
     cout<< COLOR_RESET;
+    
 }
 
 #endif

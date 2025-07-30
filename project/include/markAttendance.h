@@ -25,22 +25,27 @@ void markAttendance(StudentList *list, const string &teacherSubject)
 {
     if (list->n == 0)
     {
+        clearTerminal();
+        cout << COLOR_MAGENTA;
         printf("%s╔════════════════════════════════════╗\n", indent());
-        printf("%s║        No students available       ║\n", indent());
+        printf("%s║ %sNo students available%s       ║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
         printf("%s╚════════════════════════════════════╝\n", indent());
+        cout << COLOR_RESET;
 
         return;
     }
 
+    clearTerminal();
     string date;
     int markingOption;
+    cout << COLOR_MAGENTA;
     printf("%s╔════════════════════════════════════╗\n", indent());
-    printf("%s║    Attendance for %-13s    ║\n", indent(), teacherSubject.c_str());
+    printf("%s║    %sAttendance for %-13s%s    ║\n", indent(), COLOR_BLUE, teacherSubject.c_str(), COLOR_MAGENTA);
     printf("%s╠════════════════════════════════════╣\n", indent());
-    printf("%s║ 1. Use today's date (%s)   ║\n", indent(), getCurrentDate().c_str());
-    printf("%s║ 2. Enter custom date               ║\n", indent());
+    printf("%s║ %s1. Use today's date (%s%s%s)%s   ║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_BRIGHT_YELLOW, getCurrentDate().c_str(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
+    printf("%s║ %s2. Enter custom date               %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
     printf("%s╚════════════════════════════════════╝\n", indent());
-    printf("%s║ Choose option: ", indent());
+    printf("%s Choose option: ", indent());
 
     cin >> markingOption;
 
@@ -50,15 +55,17 @@ void markAttendance(StudentList *list, const string &teacherSubject)
     }
     else
     {
-        printf("║ Enter date (YYYY-MM-DD): ", indent());
+        printf("║ %sEnter date (YYYY-MM-DD): ", indent());
         cin >> date;
     }
-
+    printf("%s╔════════════════════════════════════╗\n", indent());
+    printf("%s║    %sAttendance for %-13s%s    ║\n", indent(), COLOR_BLUE, teacherSubject.c_str(), COLOR_MAGENTA);
     printf("%s╠════════════════════════════════════╣\n", indent());
-    printf("%s║ 1. Mark individual student         ║\n", indent());
-    printf("%s║ 2. Mark all students               ║\n", indent());
-    printf("%s╚════════════════════════════════════╣\n", indent());
-    printf("%s║ Choose marking mode: ", indent());
+    printf("%s║ %s1. Mark individual student         %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
+    printf("%s║ %s2. Mark all students               %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
+    printf("%s╚════════════════════════════════════╝\n", indent());
+    printf("%s Choose marking mode: ", indent());
+
     cin >> markingOption;
 
     if (markingOption == 1)
@@ -66,9 +73,9 @@ void markAttendance(StudentList *list, const string &teacherSubject)
         // Individual student marking
         string studentId;
         char status;
-        printf("%s║ Enter Student ID: ", indent());
+        printf("%s Enter Student ID: ", indent());
         cin >> studentId;
-        printf("%s║ Present (P) or Absent (A): ", indent());
+        printf("%s Present (P) or Absent (A): ", indent());
         cin >> status;
 
         Student *current = list->head;
@@ -95,8 +102,9 @@ void markAttendance(StudentList *list, const string &teacherSubject)
                         {
                             attCurrent->present = (toupper(status) == 'P');
                             delete newAtt;
-                            printf("%s╠════════════════════════════════════╣\n", indent());
-                            printf("%s║ Attendance updated successfully!  ║\n", indent());
+                            clearTerminal();
+                            printf("%s╔════════════════════════════════════╗\n", indent());
+                            printf("%s║ %sAttendance updated successfully!  %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
                             printf("%s╚════════════════════════════════════╝\n", indent());
                             return;
                         }
@@ -105,22 +113,23 @@ void markAttendance(StudentList *list, const string &teacherSubject)
                     attCurrent->next = newAtt;
                 }
 
-                printf("%s╠════════════════════════════════════╣\n", indent());
-                printf("%s║ Attendance marked successfully!    ║\n", indent());
+                clearTerminal();
+                printf("%s╔════════════════════════════════════╗\n", indent());
+                printf("%s║ %sAttendance marked successfully!    %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
                 printf("%s╚════════════════════════════════════╝\n", indent());
                 return;
             }
             current = current->next;
         }
-        printf("%s╠════════════════════════════════════╣\n", indent());
-        printf("%s║ Student not found or not enrolled  ║\n", indent());
-        printf("%s║ in %-30s ║\n", teacherSubject.c_str(), indent());
+        printf("%s╔════════════════════════════════════╗\n", indent());
+        printf("%s║ %sStudent not found or not in your   %s║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
+        printf("%s║ %ssubject (%s)                     %s║\n", indent(), COLOR_BRIGHT_YELLOW, teacherSubject.c_str(), COLOR_MAGENTA);
     }
     else
     {
         // Bulk marking for all students in subject
         char status;
-        printf("%s║ Mark all as Present (P) or Absent (A): ", indent());
+        printf("%s Mark all as Present (P) or Absent (A): ", indent());
         cin >> status;
 
         Student *current = list->head;
@@ -163,13 +172,15 @@ void markAttendance(StudentList *list, const string &teacherSubject)
 
         if (markedAny)
         {
-            printf("%s╠════════════════════════════════════╣\n", indent());
-            printf("%s║ Attendance marked for all students ║\n", indent());
+            clearTerminal();
+            printf("%s╔════════════════════════════════════╗\n", indent());
+            printf("%s║ %sAttendance marked for all students %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
         }
         else
         {
-            printf("%s╠════════════════════════════════════╣\n", indent());
-            printf("%s║ No students in your subject        ║\n", indent());
+            clearTerminal();
+            printf("%s╔════════════════════════════════════╗\n", indent());
+            printf("%s║ %sNo students in your subject        %s║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
         }
     }
     printf("%s╚════════════════════════════════════╝\n", indent());

@@ -17,6 +17,7 @@ void loginMenu(StudentList *list, TeacherList *teacherList)
 {
     string id, password;
 
+    clearTerminal();
     cout << "\n\n";
     cout << COLOR_CYAN;
     cout << indent1() << "    ███████████████████████████████████████████████████████████████████████████████▀██████████████████████████████████████████████████████████████████████████" << endl;
@@ -67,12 +68,13 @@ void loginMenu(StudentList *list, TeacherList *teacherList)
 
                 if (found)
                 {
+                    clearTerminal();
                     cout << COLOR_BRIGHT_GREEN;
-                    cout << indent() << "========== Login Successful ==========\n";
-                    cout << indent() << "Welcome back, " << t->name << "!\n";
-                    cout << indent() << "Subject: " << t->subject << "\n";
-                    cout << indent() << "You can now manage your students.\n";
-                    cout << indent() << "=======================================\n";
+                    cout << indent() << "    ========== Login Successful ==========\n";
+                    cout << indent() << "        Welcome back, " << t->name << "!\n";
+                    cout << indent() << "         Subject: " << t->subject << "\n";
+                    cout << indent() << "       You can now manage your students.\n";
+                    cout << indent() << "    =======================================\n";
                     cout << COLOR_RESET;
                     teacherMain(list, id, t->subject);
                 }
@@ -100,6 +102,7 @@ void loginMenu(StudentList *list, TeacherList *teacherList)
             }
             case 3:
             {
+                clearTerminal();
                 cout << COLOR_MAGENTA;
                 cout << indent() << "========== Register New Teacher ==========\n";
                 cout << indent() << "Enter Teacher ID: ";
@@ -131,6 +134,7 @@ void loginMenu(StudentList *list, TeacherList *teacherList)
                 break;
             }
             case 4:
+                clearTerminal();
                 cout << indent() << "Exiting the system. Goodbye!\n";
                 return;
             default:

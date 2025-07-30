@@ -8,6 +8,7 @@
 using namespace std;
 void deleteStudent(StudentList* list, const string& id) {
     if (list->n == 0) {
+        clearTerminal();
         cout<<COLOR_MAGENTA;
         printf("%s╔════════════════════════════════════╗\n",indent());
         printf("%s║        No students available       ║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
@@ -43,6 +44,7 @@ void deleteStudent(StudentList* list, const string& id) {
         current = current->next;
     }
 
+    clearTerminal();
     cout<<COLOR_BRIGHT_RED;
     cout<<indent() << "Student with ID " << id << " not found." << endl;
     cout<<COLOR_RESET;

@@ -14,6 +14,7 @@ void addGrade(StudentList *list, const string &teacherSubject)
     cout << COLOR_MAGENTA;
     if (list->n == 0)
     {
+        clearTerminal();
         printf("%s╔════════════════════════════════════╗\n", indent());
         printf("%s║        No students available       ║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
         printf("%s╚════════════════════════════════════╝\n", indent());
@@ -23,14 +24,11 @@ void addGrade(StudentList *list, const string &teacherSubject)
 
     string studentId;
 
+    clearTerminal();
     printf("%s╔════════════════════════════════════╗\n", indent());
-
-    // Fix: indent first, then formatted subject with proper colors
     printf("%s║     Add Grade for %-12s     ║\n", indent(), teacherSubject.c_str());
-
-    printf("%s╠════════════════════════════════════╣\n", indent());
-
-    printf("%s%s║ Enter Student ID: %s", COLOR_MAGENTA, indent(), COLOR_BRIGHT_GREEN);
+    printf("%s╚════════════════════════════════════╝\n", indent());
+    printf("%s%s Enter Student ID: %s", COLOR_MAGENTA, indent(), COLOR_BRIGHT_GREEN);
     cin >> studentId;
 
     Student *current = list->head;
@@ -40,7 +38,7 @@ void addGrade(StudentList *list, const string &teacherSubject)
         {
             float score;
 
-            printf("%s%s║ Enter Score for %-15s: %s", COLOR_MAGENTA, indent(), teacherSubject.c_str(), COLOR_BRIGHT_GREEN);
+            printf("%s%s Enter Score for %s:", COLOR_MAGENTA, indent(), teacherSubject.c_str(), COLOR_BRIGHT_GREEN);
             cin >> score;
             cout<<COLOR_MAGENTA;
 
@@ -57,8 +55,9 @@ void addGrade(StudentList *list, const string &teacherSubject)
                 {
                     if (gradeCurrent->subject == teacherSubject)
                     {
+                        clearTerminal();
                         cout<<COLOR_MAGENTA;
-                        printf("%s╠════════════════════════════════════╣\n", indent());
+                        printf("%s╔════════════════════════════════════╗\n", indent());
                         printf("%s%s║ Grade already exists! Overwriting. ║\n", indent(), COLOR_BRIGHT_YELLOW,COLOR_MAGENTA);
                         gradeCurrent->score = score;
                         delete newGrade;
@@ -71,10 +70,10 @@ void addGrade(StudentList *list, const string &teacherSubject)
                 }
                 gradeCurrent->next = newGrade;
             }
-
+            clearTerminal();
             cout<<COLOR_MAGENTA;
-            printf("%s╠════════════════════════════════════╣\n", indent());
-            printf("%s%s║ Grade added successfully!          ║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
+            printf("%s╔════════════════════════════════════╗\n", indent());
+            printf("%s║   %s  Grade added successfully!      %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
             printf("%s╚════════════════════════════════════╝\n", indent());
             return;
         }
@@ -82,10 +81,11 @@ void addGrade(StudentList *list, const string &teacherSubject)
     }
 
     // Student not found message
+    clearTerminal();
     cout<<COLOR_MAGENTA;
-    printf("%s╠════════════════════════════════════╣\n", indent());
-    printf("%s%s║ Student not found or not enrolled  ║\n", indent(), COLOR_BRIGHT_YELLOW,COLOR_MAGENTA);
-    printf("%s%s║ in %-32s ║\n", indent(), COLOR_BRIGHT_YELLOW, teacherSubject.c_str(),COLOR_MAGENTA);
+    printf("%s╔════════════════════════════════════╗\n", indent());
+    printf("%s║ %sStudent not found or not enrolled  %s║\n", indent(), COLOR_BRIGHT_YELLOW,COLOR_MAGENTA);
+    printf("%s║ %sin %-32s%s║\n", indent(), COLOR_BRIGHT_YELLOW, teacherSubject.c_str(),COLOR_MAGENTA);
     printf("%s╚════════════════════════════════════╝\n", indent());
 
     cout << COLOR_RESET;

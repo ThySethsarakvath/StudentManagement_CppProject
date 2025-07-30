@@ -13,6 +13,7 @@ void editStudent(StudentList *list, const string &id, const string &teacherSubje
 {
     if (list->n == 0)
     {
+        clearTerminal();
         printf("%s╔════════════════════════════════════╗\n", indent());
         printf("%s║        No students to edit         ║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
         printf("%s╚════════════════════════════════════╝\n", indent());
@@ -25,14 +26,15 @@ void editStudent(StudentList *list, const string &id, const string &teacherSubje
     {
         if (current->id == id && current->subject == teacherSubject)
         {
+            clearTerminal();
             cout << COLOR_MAGENTA;
             printf("%s╔══════════════════════════════════════════════╗\n", indent());
             printf("%s║ %sEDITING STUDENT (%-10s) %-15s%s ║\n", indent(), COLOR_BLUE, id.c_str(), teacherSubject.c_str(), COLOR_MAGENTA);
             printf("%s╠══════════════════════════════════════════════╣\n", indent());
-            printf("%s║ %s1. Name    : %-35s%s ║\n", indent(), COLOR_GREEN, current->name.c_str(), COLOR_MAGENTA);
-            printf("%s║ %s2. Gender  : %-33s%s ║\n", indent(), COLOR_GREEN, current->gender.c_str(), COLOR_MAGENTA);
-            printf("%s║ %s3. Age     : %-36d%s ║\n", indent(), COLOR_GREEN, current->age, COLOR_MAGENTA);
-            printf("%s║ %s4. Major   : %-34s%s ║\n", indent(), COLOR_GREEN, current->major.c_str(), COLOR_MAGENTA);
+            printf("%s║ %s1. Name    : %-31s%s ║\n", indent(), COLOR_GREEN, current->name.c_str(), COLOR_MAGENTA);
+            printf("%s║ %s2. Gender  : %-31s%s ║\n", indent(), COLOR_GREEN, current->gender.c_str(), COLOR_MAGENTA);
+            printf("%s║ %s3. Age     : %-31d%s ║\n", indent(), COLOR_GREEN, current->age, COLOR_MAGENTA);
+            printf("%s║ %s4. Major   : %-31s%s ║\n", indent(), COLOR_GREEN, current->major.c_str(), COLOR_MAGENTA);
             printf("%s║ %s5. Password: %-31s%s ║\n", indent(), COLOR_GREEN, current->password.c_str(), COLOR_MAGENTA);
             printf("%s╚══════════════════════════════════════════════╝\n", indent());
             cout << COLOR_RESET;

@@ -49,7 +49,7 @@ void studentMain(StudentList *list, const string &studentId)
         cout << indent() << "║" << COLOR_BLUE << centerText(" STUDENT DASHBOARD: " + current->name, 46) << COLOR_MAGENTA "║\n";
         cout << indent() << "╠══════════════════════════════════════════════╣\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "1. View Profile" << COLOR_MAGENTA << "                              ║\n";
-        cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "2. View Grade" << COLOR_MAGENTA << "                    ║\n";
+        cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "2. View Grade" << COLOR_MAGENTA << "                                ║\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "3. View Attendence Records" << COLOR_MAGENTA << "                   ║\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "4. View Overall Performance" << COLOR_MAGENTA << "                  ║\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "5. Change Password" << COLOR_MAGENTA << "                           ║\n";
@@ -62,29 +62,32 @@ void studentMain(StudentList *list, const string &studentId)
         {
         case 1:
         { // View Profile
+            clearTerminal();
             cout << COLOR_MAGENTA;
             printf("%s╔═════════════════════════════════════════════╗\n", indent());
-            printf("%s║ %s ║\n", indent(), COLOR_BLUE, centerText("STUDENT PROFILE", 44).c_str(), COLOR_MAGENTA);
+            printf("%s║ %s%-44s%s║\n", indent(), COLOR_BLUE, centerText("STUDENT PROFILE", 44).c_str(), COLOR_MAGENTA);
             printf("%s╠══════════════════════╦══════════════════════╣\n", indent());
-            printf("%s║ %-20s ║ %-20s ║\n", indent(), COLOR_GREEN, "ID:", current->id.c_str(), COLOR_MAGENTA);
-            printf("%s║ %-20s ║ %-20s ║\n", indent(), COLOR_GREEN, "Name:", current->id.c_str(), COLOR_MAGENTA);
-            printf("%s║ %-20s ║ %-20s ║\n", indent(), COLOR_GREEN, "Gender:", current->id.c_str(), COLOR_MAGENTA);
-            printf("%s║ %-20s ║ %-20d ║\n", indent(), COLOR_GREEN, "Age:", current->id.c_str(), COLOR_MAGENTA);
-            printf("%s║ %-20s ║ %-20s ║\n", indent(), COLOR_GREEN, "Major:", current->id.c_str(), COLOR_MAGENTA);
-            printf("%s║ %-20s ║ %-20s ║\n", indent(), COLOR_GREEN, "Enrolled Subject:", current->id.c_str(), COLOR_MAGENTA);
+            printf("%s║ %s%-20s%s ║ %-20s ║\n", indent(), COLOR_GREEN, "ID:", COLOR_MAGENTA, current->id.c_str());
+            printf("%s║ %s%-20s%s ║ %-20s ║\n", indent(), COLOR_GREEN, "Name:", COLOR_MAGENTA, current->name.c_str());
+            printf("%s║ %s%-20s%s ║ %-20s ║\n", indent(), COLOR_GREEN, "Gender:", COLOR_MAGENTA, current->gender.c_str());
+            printf("%s║ %s%-20s%s ║ %-20d ║\n", indent(), COLOR_GREEN, "Age:", COLOR_MAGENTA, current->age);
+            printf("%s║ %s%-20s%s ║ %-20s ║\n", indent(), COLOR_GREEN, "Major:", COLOR_MAGENTA, current->major.c_str());
+            printf("%s║ %s%-20s%s ║ %-20s ║\n", indent(), COLOR_GREEN, "Enrolled Subject:", COLOR_MAGENTA, current->subject.c_str());
             printf("%s╚══════════════════════╩══════════════════════╝\n", indent());
             cout << COLOR_RESET;
+
             break;
         }
         case 2:
         { // View Grades by Subject
+            clearTerminal();
             cout << COLOR_MAGENTA;
             printf("%s╔═════════════════════════════════════════════╗\n", indent());
-            printf("%s║ %s║\n", indent(), COLOR_BLUE, centerText("GRADE REPORT", 44).c_str(), COLOR_MAGENTA);
+            printf("%s║ %s%-44s%s║\n", indent(), COLOR_BLUE, centerText("GRADE REPORT", 44).c_str(), COLOR_MAGENTA);
             printf("%s╠══════════════════════╦══════════════════════╣\n", indent());
-            printf("%s║ %-20s ║ %-20s║\n", indent(), COLOR_BLUE, "SUBJECT", "GRADES (Latest First)", COLOR_MAGENTA);
+            printf("%s║ %s%-20s%s ║ %-20s║\n", indent(), COLOR_BLUE, "SUBJECT", COLOR_MAGENTA, "GRADES (Latest First)");
             printf("%s╠══════════════════════╬══════════════════════╣\n", indent());
-
+            // Loop through subject-grade pairs
             for (const auto &subj : gradesBySubject)
             {
                 string gradesStr;
@@ -92,42 +95,44 @@ void studentMain(StudentList *list, const string &studentId)
                 {
                     gradesStr += to_string(subj.second[i]) + " ";
                 }
-                printf("%s║ %-20s ║ %-20s ║\n",
-                       indent(), COLOR_BRIGHT_GREEN,
+                printf("%s║ %s%-20s%s ║ %-20s ║\n",
+                       indent(),
+                       COLOR_BRIGHT_GREEN,
                        subj.first.c_str(),
-                       gradesStr.empty() ? "N/A" : gradesStr.c_str(), COLOR_MAGENTA);
+                       COLOR_MAGENTA,
+                       gradesStr.empty() ? "N/A" : gradesStr.c_str());
             }
-
             printf("%s╚══════════════════════╩══════════════════════╝\n", indent());
             cout << COLOR_RESET;
+
             break;
         }
         case 3:
         { // View Attendance
+            clearTerminal();
             cout << COLOR_MAGENTA;
             printf("%s╔══════════════════════════════════════════════╗\n", indent());
-            printf("%s║ %s ║\n", indent(), COLOR_BLUE, centerText("ATTENDANCE RECORDS", 44).c_str(), COLOR_MAGENTA);
+            printf("%s║ %s%-44s%s ║\n", indent(), COLOR_BLUE, centerText("ATTENDANCE RECORDS", 44).c_str(), COLOR_MAGENTA);
             printf("%s╠══════════════════════╦══════════╦════════════╣\n", indent());
-            printf("%s║ %-20s ║ %-8s ║ %-10s ║\n", indent(), COLOR_BLUE, "DATE", "STATUS", "SUBJECT", COLOR_MAGENTA);
+            printf("%s║ %s%-20s%s ║ %s%-8s%s ║ %-10s ║\n", indent(),
+                   COLOR_BLUE, "DATE", COLOR_MAGENTA,
+                   COLOR_BLUE, "STATUS", COLOR_MAGENTA,
+                   "SUBJECT");
             printf("%s╠══════════════════════╬══════════╬════════════╣\n", indent());
-
+            // Attendance records
             Attendance *att = current->attendanceHead;
             while (att)
             {
-                printf("%s║ %-20s ║ %-8s ║ %-10s ║\n",
-                       indent(),
+                const char *statusText = att->present ? "Present" : "Absent";
+                const char *statusColor = att->present ? COLOR_BRIGHT_GREEN : COLOR_BRIGHT_RED;
+                printf("%s║ %-20s ║ %s%-8s%s ║ %-10s ║\n", indent(),
                        att->date.c_str(),
-                       att->present ? COLOR_GREEN : COLOR_RED,
-                       att->present ? "Present" : "Absent",
-                       COLOR_MAGENTA,
+                       statusColor, statusText, COLOR_MAGENTA,
                        current->subject.c_str());
                 att = att->next;
             }
-
             printf("%s╚══════════════════════╩══════════╩════════════╝\n", indent());
-            
 
-            // Calculate attendance rate
             int total = 0, present = 0;
             att = current->attendanceHead;
             while (att)
@@ -137,19 +142,28 @@ void studentMain(StudentList *list, const string &studentId)
                     present++;
                 att = att->next;
             }
+
             if (total > 0)
             {
-                printf("%sAttendance Rate: %.1f%% (%d/%d)\n", indent(),COLOR_BRIGHT_YELLOW,
-                       (present * 100.0) / total, present, total, COLOR_MAGENTA);
+                printf("%s%sAttendance Rate: %.1f%% (%d/%d)%s\n", indent(),
+                       COLOR_BRIGHT_YELLOW,
+                       (present * 100.0) / total, present, total,
+                       COLOR_RESET);
+            }
+            else
+            {
+                printf("%s%sNo attendance records available.%s\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_RESET);
             }
             cout << COLOR_RESET;
+
             break;
         }
         case 4:
         { // Overall Performance
+            clearTerminal();
             cout << COLOR_MAGENTA;
             printf("%s╔═════════════════════════════════════════════╗\n", indent());
-            printf("%s║ %s ║\n", indent(),COLOR_BLUE,centerText("OVERALL PERFORMANCE", 44).c_str(), COLOR_MAGENTA);
+            printf("%s║ %s%-44s%s║\n", indent(), COLOR_BLUE, centerText("OVERALL PERFORMANCE", 44).c_str(), COLOR_MAGENTA);
             printf("%s╠══════════════════════╦══════════════════════╣\n", indent());
 
             // GPA Calculation
@@ -175,37 +189,46 @@ void studentMain(StudentList *list, const string &studentId)
                     presentAtt++;
                 att = att->next;
             }
-            float attRate = totalAtt > 0 ? (presentAtt * 100.0) / totalAtt : 0;
+            float attRate = totalAtt > 0 ? (presentAtt * 100.0f) / totalAtt : 0.0f;
 
-            printf("%s║ %-20s ║ %-20.2f ║\n", indent(),COLOR_BRIGHT_GREEN, "GPA:", gpa, COLOR_MAGENTA);
-            printf("%s║ %-20s ║ %-20.1f%%║\n", indent(),COLOR_BRIGHT_GREEN "Attendance Rate:", attRate,COLOR_MAGENTA);
-            printf("%s║ %-20s ║ %-20d ║\n", indent(),COLOR_BRIGHT_GREEN, "Subjects Taken:", (int)gradesBySubject.size(), COLOR_MAGENTA);
+            // GPA row
+            printf("%s║ %s%-20s%s ║ %-20.2f ║\n", indent(),
+                   COLOR_BRIGHT_GREEN, "GPA:", COLOR_MAGENTA, gpa);
+            // Attendance row
+            printf("%s║ %s%-20s%s ║ %-20.1f%%║\n", indent(),
+                   COLOR_BRIGHT_GREEN, "Attendance Rate:", COLOR_MAGENTA, attRate);
+            // Subjects row
+            printf("%s║ %s%-20s%s ║ %-20d ║\n", indent(),
+                   COLOR_BRIGHT_GREEN, "Subjects Taken:", COLOR_MAGENTA, (int)gradesBySubject.size());
             printf("%s╚══════════════════════╩══════════════════════╝\n", indent());
             cout << COLOR_RESET;
             break;
         }
         case 5:
         { // Change Password
+            clearTerminal();
             string oldPass, newPass;
-            cout<<COLOR_BRIGHT_YELLOW;
+            cout << COLOR_BRIGHT_YELLOW;
             cout << indent() << "Enter current password: ";
             cin >> oldPass;
             if (oldPass != current->password)
             {
                 cout << COLOR_BRIGHT_RED;
                 cout << indent() << "Incorrect password!\n";
-                cout<<COLOR_BRIGHT_YELLOW;
+                cout << COLOR_BRIGHT_YELLOW;
                 break;
             }
             cout << indent() << "Enter new password: ";
             cin >> newPass;
             current->password = newPass;
+            clearTerminal();
             cout << COLOR_BRIGHT_GREEN;
             cout << indent() << "Password changed successfully!\n";
             cout << COLOR_RESET;
             break;
         }
         case 6: // Logout
+            clearTerminal();
             cout << COLOR_BRIGHT_YELLOW;
             cout << indent() << "Logging out...\n";
             cout << COLOR_RESET;
