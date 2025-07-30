@@ -38,7 +38,6 @@ void teacherMain(StudentList *list, string teacherID, string subject)
         case 1:
         {
 
-            // Call addStudent()
             string id, password, name, gender, major, ageStr;
             int age;
             clearTerminal();
@@ -72,7 +71,7 @@ void teacherMain(StudentList *list, string teacherID, string subject)
                     age = stoi(ageStr);
                     if (isValidAge(age))
                     {
-                        break; // Age is valid and clean
+                        break;
                     }
                     else
                     {
@@ -107,30 +106,26 @@ void teacherMain(StudentList *list, string teacherID, string subject)
 
         case 3:
             clearTerminal();
-            showViewMenu(list, subject); // Now it's clean and scoped!
+            showViewMenu(list, subject);
             break;
 
         case 4:
-            // Call searchStudetn()
             clearTerminal();
             searchStudentMenu(list, subject);
             break;
 
         case 5:
-            // Call markAttendance()
             clearTerminal();
             markAttendance(list, subject);
             break;
 
         case 6:
-            // Call addGrade()
             clearTerminal();
             addGrade(list, subject);
             break;
 
         case 7:
         {
-            // Call deleteStudent()
             clearTerminal();
             string idToDelete;
             cout << COLOR_MAGENTA;

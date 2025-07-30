@@ -1,87 +1,12 @@
 #include "../include/student.h"
 #include "../include/ui.h"
+#include "../include/studentViews.h"
 #include <iostream>
 #include <cstdio>
 #include <iomanip>
 #include <string>
 
 using namespace std;
-
-void displayGrades(Grade *gradesHead, const string &currentSubject)
-{
-    // Count grades first
-    int gradeCount = 0;
-    Grade *temp = gradesHead;
-    while (temp)
-    {
-        if (temp->subject == currentSubject)
-        {
-            gradeCount++;
-        }
-        temp = temp->next;
-    }
-
-    if (gradeCount == 0)
-    {
-        printf("%s║ %-20s ║ %-20s ║\n",
-               indent(),
-               "No grades available",
-               "");
-        return;
-    }
-
-    // Display grades in reverse order (latest first)
-    float grades[gradeCount]; // Simple array instead of vector
-    int index = 0;
-    temp = gradesHead;
-    while (temp)
-    {
-        if (temp->subject == currentSubject)
-        {
-            grades[index++] = temp->score;
-        }
-        temp = temp->next;
-    }
-
-    string gradesStr;
-    for (int i = index - 1; i >= 0; i--)
-    {
-        gradesStr += to_string(grades[i]) + " ";
-    }
-
-    printf("%s║ %-20s ║ %-20s ║\n",
-           indent(),
-           currentSubject.c_str(),
-           gradesStr.c_str());
-}
-
-void displayAttendance(Attendance *attendanceHead)
-{
-    int total = 0, present = 0;
-    Attendance *att = attendanceHead;
-
-    while (att)
-    {
-        const char *statusText = att->present ? "Present" : "Absent";
-        const char *statusColor = att->present ? COLOR_BRIGHT_GREEN : COLOR_BRIGHT_RED;
-        printf("%s║ %-20s ║ %s%-8s%s ║ %-10s ║\n", indent(),
-               att->date.c_str(),
-               statusColor, statusText, COLOR_MAGENTA,
-               "Subject");
-        total++;
-        if (att->present)
-            present++;
-        att = att->next;
-    }
-
-    if (total > 0)
-    {
-        printf("%s%sAttendance Rate: %.1f%% (%d/%d)%s\n", indent(),
-               COLOR_BRIGHT_YELLOW,
-               (present * 100.0) / total, present, total,
-               COLOR_RESET);
-    }
-}
 
 void studentMain(StudentList *list, const string &studentId)
 {
@@ -135,37 +60,12 @@ void studentMain(StudentList *list, const string &studentId)
         }
         case 2:
         { // View Grades
-            clearTerminal();
-            cout << COLOR_MAGENTA;
-            printf("%s╔═════════════════════════════════════════════╗\n", indent());
-            printf("%s║ %s%-44s%s║\n", indent(), COLOR_BLUE, centerText("GRADE REPORT", 44).c_str(), COLOR_MAGENTA);
-            printf("%s╠══════════════════════╦══════════════════════╣\n", indent());
-            printf("%s║ %s%-20s%s ║ %-20s║\n", indent(), COLOR_BLUE, "SUBJECT", COLOR_MAGENTA, "GRADES");
-            printf("%s╠══════════════════════╬══════════════════════╣\n", indent());
-
-            displayGrades(current->gradesHead, current->subject);
-
-            printf("%s╚══════════════════════╩══════════════════════╝\n", indent());
-            cout << COLOR_RESET;
+            showGradePanel(current->gradesHead, current->subject);
             break;
         }
         case 3:
         { // View Attendance
-            clearTerminal();
-            cout << COLOR_MAGENTA;
-            printf("%s╔══════════════════════════════════════════════╗\n", indent());
-            printf("%s║ %s%-44s%s ║\n", indent(), COLOR_BLUE, centerText("ATTENDANCE RECORDS", 44).c_str(), COLOR_MAGENTA);
-            printf("%s╠══════════════════════╦══════════╦════════════╣\n", indent());
-            printf("%s║ %s%-20s%s ║ %s%-8s%s ║ %-10s ║\n", indent(),
-                   COLOR_BLUE, "DATE", COLOR_MAGENTA,
-                   COLOR_BLUE, "STATUS", COLOR_MAGENTA,
-                   "SUBJECT");
-            printf("%s╠══════════════════════╬══════════╬════════════╣\n", indent());
-
-            displayAttendance(current->attendanceHead);
-
-            printf("%s╚══════════════════════╩══════════╩════════════╝\n", indent());
-            cout << COLOR_RESET;
+            showAttendancePanel(current->attendanceHead, current->subject);
             break;
         }
         case 4:

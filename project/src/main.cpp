@@ -9,8 +9,6 @@
 #include "student.cpp"
 #include "teacher.cpp"
 
-// #include <limits>
-
 using namespace std;
 
 void loginMenu(StudentList *list, TeacherList *teacherList)
@@ -160,11 +158,8 @@ int main()
 
     loadAllData(list);
     loadTeachersFromCSV(teacherList, "../Data/teacherAcc.csv");
-    // addTeacher(teacherList, "T001", "pass111", "vath", "math");
-    // addStudent(list, "S001", "pass123", "Alice", "M", 20, "Computer Science","math");
     loginMenu(list, teacherList);
     saveTeachersToCSV(teacherList, "../Data/teacherAcc.csv");
-
     saveAllData(list);
 
     return 0;

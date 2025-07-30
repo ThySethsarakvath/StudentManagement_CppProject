@@ -96,7 +96,7 @@ void markAttendance(StudentList *list, const string &teacherSubject)
                 if (current->id == studentId && current->subject == teacherSubject)
                 {
                     foundStudent = true;
-                    break; // Exit inner loop once found
+                    break;
                 }
                 current = current->next;
             }
