@@ -26,7 +26,7 @@ void studentMain(StudentList *list, const string &studentId)
 
     clearTerminal();
     cout<<COLOR_BRIGHT_GREEN;
-    cout<<indent()<<"Studnet Logged in successfully!"<<endl;
+    cout<<indent()<<"Student Logged in Successfully!"<<endl;
     cout<<COLOR_RESET;
     while (true)
     {

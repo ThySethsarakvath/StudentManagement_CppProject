@@ -204,7 +204,7 @@ void showViewMenu(StudentList *list, const string &subject)
     cout << COLOR_MAGENTA;
     while (true)
     {
-        printf("%s╔════════════════════════════════════╗\n", indent());
+        printf("%s╔════════════════════════════════════╗\n", indent(), COLOR_MAGENTA);
         printf("%s║            %sSelect View             %s║\n", indent(), COLOR_BLUE, COLOR_MAGENTA);
         printf("%s╠════════════════════════════════════╣\n", indent());
         printf("%s║ %s1. Student Overview                %s║\n", indent(), COLOR_BRIGHT_GREEN, COLOR_MAGENTA);
@@ -301,9 +301,9 @@ void showGradePanel(Grade *gradesHead, const string &subject)
     clearTerminal();
     cout << COLOR_MAGENTA;
     printf("%s╔═════════════════════════════════════════════╗\n", indent());
-    printf("%s║ %s%-44s%s ║\n", indent(), COLOR_BLUE, centerText("GRADE REPORT", 44).c_str(), COLOR_MAGENTA);
+    printf("%s║ %s%-44s%s║\n", indent(), COLOR_BLUE, centerText("GRADE REPORT", 44).c_str(), COLOR_MAGENTA);
     printf("%s╠══════════════════════╦══════════════════════╣\n", indent());
-    printf("%s║ %s%-20s%s ║ %-20s ║\n", indent(),
+    printf("%s║ %s%-20s%s ║ %-20s║\n", indent(),
            COLOR_BLUE, "SUBJECT", COLOR_MAGENTA,
            "GRADES (Latest First)");
     printf("%s╠══════════════════════╬══════════════════════╣\n", indent());
