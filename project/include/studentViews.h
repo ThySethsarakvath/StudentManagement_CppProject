@@ -201,9 +201,10 @@ void displayAttendanceView(StudentList *list, const string &subject)
 
 void showViewMenu(StudentList *list, const string &subject)
 {
-    cout << COLOR_MAGENTA;
+   
     while (true)
     {
+        cout << COLOR_MAGENTA;
         printf("%s╔════════════════════════════════════╗\n", indent(), COLOR_MAGENTA);
         printf("%s║            %sSelect View             %s║\n", indent(), COLOR_BLUE, COLOR_MAGENTA);
         printf("%s╠════════════════════════════════════╣\n", indent());
