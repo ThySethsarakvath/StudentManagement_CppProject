@@ -83,6 +83,7 @@ void loginMenu(StudentList *list, TeacherList *teacherList)
             }
             case 2:
             {
+                clearTerminal();
                 cout << COLOR_MAGENTA;
                 cout << indent() << "========== Student Login ==========\n";
                 cout << indent() << "Please enter your ID: ";

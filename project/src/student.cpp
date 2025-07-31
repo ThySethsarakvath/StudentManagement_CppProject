@@ -18,10 +18,16 @@ void studentMain(StudentList *list, const string &studentId)
 
     if (!current)
     {
+        cout << COLOR_BRIGHT_RED;
         cout << indent() << "Student not found.\n";
+        cout << COLOR_RESET;
         return;
     }
 
+    clearTerminal();
+    cout<<COLOR_BRIGHT_GREEN;
+    cout<<indent()<<"Studnet Logged in successfully!"<<endl;
+    cout<<COLOR_RESET;
     while (true)
     {
         cout << COLOR_MAGENTA;
