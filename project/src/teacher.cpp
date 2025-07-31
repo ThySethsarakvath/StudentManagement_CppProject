@@ -19,7 +19,7 @@ void teacherMain(StudentList *list, string teacherID, string subject)
     {
         cout << COLOR_MAGENTA;
         cout << indent() << "╔══════════════════════════════════════════════╗\n";
-        cout << indent() << "║           " << COLOR_BLUE << "Teacher Panel (" << subject << ")" << COLOR_MAGENTA << "               ║\n";
+        cout << indent() << "║           " << COLOR_BLUE << "Teacher Panel (" << subject << ")" << COLOR_MAGENTA << "                 ║\n";
         cout << indent() << "╠══════════════════════════════════════════════╣\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "1. Add new Student" << COLOR_MAGENTA << "                           ║\n";
         cout << indent() << "║ " << COLOR_BRIGHT_GREEN << "2. Edit Students Details" << COLOR_MAGENTA << "                     ║\n";
