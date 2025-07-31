@@ -130,6 +130,8 @@ void loginMenu(StudentList *list, TeacherList *teacherList)
             }
             case 4:
                 clearTerminal();
+                saveAllData(list);
+
                 cout << indent() << "Exiting the system. Goodbye!\n";
                 return;
             default:
