@@ -15,6 +15,7 @@ void editStudent(StudentList *list, const string &id, const string &teacherSubje
     if (list->n == 0)
     {
         clearTerminal();
+        cout << COLOR_MAGENTA;
         printf("%s╔════════════════════════════════════╗\n", indent());
         printf("%s║        No students to edit         ║\n", indent(), COLOR_BRIGHT_YELLOW, COLOR_MAGENTA);
         printf("%s╚════════════════════════════════════╝\n", indent());
